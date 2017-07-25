@@ -23,3 +23,18 @@ Our Data set:
   - Each graph is less than 100 Kb.
   - maximum 1,271,680 data files.
 
+ML Algorithm Building Process:
+
+  - Go to http://skyserver.sdss.org/casjobs/ and create an account and run a SQL query for the spectra set,
+  while filtering out data files with 'STAR' header
+  - Download all or a sample of the spectra to local machines
+  - Run a script on the plots to filter only graphs with Equivalent Width around He II area
+  - Use resulting set to build an ML algorithm to find WR bumps
+  - Confirm with our solution set of WR bump graphs that it works
+
+Goals:
+  - Complete process outlined above
+  - Create database with tables of unclassified, computer classified and human classified graphs
+  - Push unclassified and computer classified graphs to the frontend for classificaiton and evaluation
+  - receive user input on classification for unclassified graphs and put in human classified graphs table
+  - receive user input on verification on classified graphs to teach the ML algorithm
