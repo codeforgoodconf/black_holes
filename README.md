@@ -2,5 +2,5 @@
 
 Welcome to the blackholeNotblackhole project!
 
-This is the backend for our web app, so we'll be writing server-side code to communicate with the frontend and 
-build the neural net to find galaxies with 'fossil' black holes.
+This is the backend for our web app, so we'll be writing server-side code to communicate with the frontend, 
+store information in our database, and build the neural net to find galaxies with 'fossil' black holes.
