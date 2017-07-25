@@ -6,7 +6,7 @@ Is it possible to use machine learning to reliably identify 'fossil' black holes
 
 Background:
 
-A 'fossil' black hole exists in a galaxy with large amounts of He II.
+A 'fossil' black hole exists in a galaxy with large amounts of Helium II (He II).
 We can easily write a script to filter out graphs without He II, BUT galaxies with Wolf-Rayet (WR) stars also have He II.
 WR stars leave a 'bump' in the graph at a specified interval, but the bump is not well defined.
 There is no known way to calculate whether a graph has this WR bump or not.
