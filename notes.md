@@ -15,6 +15,8 @@ We want to see if the WR bump can be found using a neural net.
 Using machine learning to find the WR bump in graphs will allow us to subtract WR bump graphs from the He II graphs.
 Thus we will have a list of galaxies with He II and no WR stars, leaving us with galaxies that have 'fossil' black holes.
 
+# What's Important for the Backend
+
 Our Data set:
 
   - 2D graphs with flux (or brightness) over wavelength. 
