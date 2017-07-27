@@ -15,7 +15,7 @@ We want to see if the WR bump can be found using a neural net.
 Using machine learning to find the WR bump in graphs will allow us to subtract WR bump graphs from the He II graphs.
 Thus we will have a list of galaxies with He II and no WR stars, leaving us with galaxies that have 'fossil' black holes.
 
-# What's Important for the Backend
+# MVP (work on during the event)
 
 Our Data set:
 
@@ -35,6 +35,8 @@ ML Algorithm Building Process:
 Goals:
   - Complete process outlined above
   - Create database with tables of unclassified, computer classified and human classified graphs
-  - Push unclassified and computer classified graphs to the frontend for classificaiton and evaluation
+  - Build server-side code to handle computations and calls to the database on George Mason Argo Cluster: http://orc.gmu.edu/research-computing/argo-cluster/
+  
+  - Push unclassified and computer classified graphs to the frontend for classification and evaluation
   - receive user input on classification for unclassified graphs and put in human classified graphs table
   - receive user input on verification on classified graphs to teach the ML algorithm
