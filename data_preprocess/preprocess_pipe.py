@@ -110,12 +110,16 @@ def crop_data(wav_rest, fwav, crop_range):
 
     return wav_rest, fwav
 
+
 def interpolate_to_std_domain(wav_rest, fwav):
 
     wav_rest_standard = [i*stepsize for i in range(4686-150, 4686+150)]
     fwav_interp = np.interp(wav_rest_standard, wav_rest, fwav)
     wav_rest = wav_rest_standard
     fwav = fwav_interp
+
+    return wav_rest, fwav
+
 
 def save_result():
 
