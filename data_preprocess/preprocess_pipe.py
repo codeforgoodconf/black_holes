@@ -32,19 +32,18 @@ def get_data():
     # Get flux density, in this case erg/cm^2/s/Angstrom.
     fwav = hdulist[1].data['flux']
 
-    # Plotting
-    fig, ax = plt.subplots()
+    keep_wav = [4686-200, 4686+200]
+    wav_rest_cropped = [wav_rest[i] for i in range(len(wav_rest))
+        if (wav_rest[i] > keep_wav[0] and wav_rest[i] < keep_wav[1])]
+    fwav_cropped = [fwav[i] for i in range(len(wav_rest))
+        if (wav_rest[i] > keep_wav[0] and wav_rest[i] < keep_wav[1])]
 
-    # Normalize the spectrum for plotting purposes.
-    def find_nearest(array,value):
-        """Quick nearest-value finder."""
-        return int((np.abs(array-value)).argmin())
-
-    norm = fwav[find_nearest(wav_rest, 5100)]
-
-    return wav_rest, fwav
+    wav_rest = wav_rest_cropped
+    fwav = fwav_cropped
 
     hdulist.close()
+
+    return wav_rest, fwav, SpecID
 
 
 def remove_slope(wav_rest, fwav):
@@ -56,7 +55,6 @@ def remove_slope(wav_rest, fwav):
     edge_points = [0,0]
     for i, edge in enumerate(bump_edges):
         for j, val in enumerate(fwav):
-            print(val)
             if (wav_rest[j] > edge - edge_region_width/2
                     and wav_rest[j] < edge + edge_region_width/2):
                 edge_sum[i] += val
@@ -71,18 +69,42 @@ def remove_slope(wav_rest, fwav):
 
     return wav_rest, fwav
 
-def plot():
-    wav_rest, fwav = get_data()
+def gaussian_smooth(wav_rest, fwav):
+
+    kernel_width = 3. #kernel width in angstroms
+    stepsize = wav_rest[1]-wav_rest[0]
+    num_steps = int(kernel_width/stepsize * 3) #Calculate out to 1%
+    kernel = [np.exp(-((i*stepsize)**2)/(2*kernel_width**2))
+        for i in range(num_steps)]
+    kernel = kernel[::-1] + kernel[1:]
+    kernel = [i/np.sum(kernel) for i in kernel] #normalize the kernel
+
+    fwav_norm = [0]*(len(fwav)-len(kernel)+1)
+    wav_rest_norm = [0]*(len(fwav)-len(kernel)+1)
+    for i in range(len(fwav_norm)):
+        use_fwav_vals = fwav[i:i+len(kernel)]
+        fwav_norm[i] = np.sum([use_fwav_vals[j]*kernel[j]
+            for j in range(len(kernel))])
+        wav_rest_norm[i] = wav_rest[i+int((len(kernel)-1)/2)]
+
+    wav_rest = wav_rest_norm
+    fwav = fwav_norm
+    return wav_rest, fwav
+
+def save_result():
+    wav_rest, fwav, SpecID = get_data()
     wav_rest, fwav = remove_slope(wav_rest, fwav)
+    wav_rest, fwav = gaussian_smooth(wav_rest, fwav)
 
-    plt.plot(wav_rest, fwav)
-    plt.xlim([4686-150, 4686+150])
-    plt.ylim([-10,10])
-    plt.show()
+    output_path = '../preprocessed_data/'
+    output_filename = 'spec-%s.csv' % SpecID
 
-    # Close the FITS file.
-    hdulist.close()
+    output = open(output_path+output_filename,"w")
+    output = open(output_path+output_filename,"a")
+    for val in fwav:
+        output.write(str(val)+',')
+    output.close()
 
 
 if __name__ == '__main__':
-    plot()
+    save_result()
