@@ -1,6 +1,8 @@
 import numpy as np
 from astropy.io import fits
 from astropy.table import Table
+import matplotlib as mpl
+mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 
 """
@@ -34,6 +36,7 @@ SpecID = '%s0%s' % (SpecID[:-3], SpecID[-3:])
 # Open spectrum FITS file
 spec_path = spec_dir + 'spec-%s.fits' % SpecID
 
+print spec_path
 hdulist = fits.open(spec_path)
 
 # A simple demonstration of the FITS file structure

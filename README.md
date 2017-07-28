@@ -12,3 +12,4 @@ For a quick intro to the project check out the MVP in <a href="https://github.co
 # Technology
 
 We'll be building a Django app using either React or Angular. We'll need a local server, so probably with Nginx and Guincorn.
+
