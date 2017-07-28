@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 
 def get_data(idx):
 
-    spec_dir = '../ML_Info/Brinchmann08_spectra/'
+    spec_dir = '../raw_data/Brinchmann08_spectra/'
 
-    t = Table.read('../ML_Info/Brinchmann08_Tab3and5.fits')
+    t = Table.read('../raw_data/Brinchmann08_Tab3and5.fits')
 
     #len(t) = 570
 
@@ -125,25 +125,28 @@ def interpolate_to_std_domain(wav_rest, fwav):
 
 def save_result():
 
-    #for idx in range(570):
-    for idx in [300]:
+    output_filename = 'data_preprocessed.csv'
+    output = open(output_filename,"w")
+    output = open(output_filename,"a")
+
+    for idx in range(570):
+    #for idx in [300]:
 
         wav_rest, fwav, SpecID = get_data(idx)
         wav_rest, fwav = remove_slope(wav_rest, fwav)
         wav_rest, fwav = gaussian_smooth(wav_rest, fwav)
         wav_rest, fwav = interpolate_to_std_domain(wav_rest, fwav)
 
-        if False:
+        print('Saving data for observation {} out of {}'.format(idx,570))
 
-            output_filename = 'spec-%s.csv' % SpecID
+        if idx != 0:
+            output.write('\n')
+        output.write(str(SpecID))
+        for val in fwav:
+            output.write(','+str(val))
 
-            output = open(output_filename,"w")
-            output = open(output_filename,"a")
-            for val in fwav:
-                output.write(str(val)+',')
-            output.close()
-
-        plot(wav_rest,fwav)
+    output.close()
+    #plot(wav_rest, fwav)
 
 
 if __name__ == '__main__':
