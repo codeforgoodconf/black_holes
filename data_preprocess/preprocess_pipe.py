@@ -31,7 +31,7 @@ def get_data(idx):
     # Get flux density, in this case erg/cm^2/s/Angstrom.
     fwav = hdulist[1].data['flux']
 
-    crop_range = [4686-200, 4686+200]
+    crop_range = [4686-250, 4686+250]
     wav_rest, fwav = crop_data(wav_rest, fwav, crop_range)
 
     hdulist.close()
@@ -41,8 +41,8 @@ def get_data(idx):
 
 def remove_slope(wav_rest, fwav):
 
-    bump_edges = [4686-150, 4686+150]
-    edge_region_width = 20.
+    bump_edges = [4517, 4785]
+    edge_region_width = 50.
 
     edge_sum = [0,0]
     edge_points = [0,0]
@@ -67,7 +67,6 @@ def gaussian_smooth(wav_rest, fwav):
 
     kernel_width = 2
     stepsize = wav_rest[1]-wav_rest[0]
-    print(stepsize)
 
     num_steps = int(kernel_width/stepsize * 3) #Calculate out to 1%
     kernel = [np.exp(-((i*stepsize)**2)/(2*kernel_width**2))
@@ -117,7 +116,6 @@ def interpolate_to_std_domain(wav_rest, fwav):
     data_range = [4686-150, 4686+150]
     wav_rest_standard = [i*stepsize+data_range[0]
         for i in range(int((data_range[1]-data_range[0])/1.03)+1)]
-    print(wav_rest_standard)
     fwav_interp = np.interp(wav_rest_standard, wav_rest, fwav)
     wav_rest = wav_rest_standard
     fwav = fwav_interp
@@ -127,22 +125,25 @@ def interpolate_to_std_domain(wav_rest, fwav):
 
 def save_result():
 
-    for idx in range(570):
+    #for idx in range(570):
+    for idx in [300]:
 
         wav_rest, fwav, SpecID = get_data(idx)
         wav_rest, fwav = remove_slope(wav_rest, fwav)
         wav_rest, fwav = gaussian_smooth(wav_rest, fwav)
         wav_rest, fwav = interpolate_to_std_domain(wav_rest, fwav)
 
-        output_filename = 'spec-%s.csv' % SpecID
+        if False:
 
-        output = open(output_filename,"w")
-        output = open(output_filename,"a")
-        for val in fwav:
-            output.write(str(val)+',')
-        output.close()
+            output_filename = 'spec-%s.csv' % SpecID
 
-        #plot(wav_rest,fwav)
+            output = open(output_filename,"w")
+            output = open(output_filename,"a")
+            for val in fwav:
+                output.write(str(val)+',')
+            output.close()
+
+        plot(wav_rest,fwav)
 
 
 if __name__ == '__main__':
