@@ -1,6 +1,33 @@
+<!DOCTYPE html>
 <html>
-HELLO!
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<h1>WORLDLDLDL</h1>
+<head>
+    <title>
+        Black Hole Sort
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
 
+
+</head>
+
+<body>
+
+    <div class = 'content' align="center">
+
+        <h1>Black Hole or Not Black Hole?</h1>
+
+        <h2>The best black hole sorting app ;)</h2>
+
+        <p> Please look at the spectrum below and determine whether or not it demonstrates black hole behavior (?)</p>
+
+    </div>
+
+    <div class = 'image' align="center">
+
+        <img src="{{ url_for('static', filename='blackhole.jpg') }}" width="800"/>
+
+    </div>
+
+</body>
     </html>
