@@ -113,7 +113,9 @@ def crop_data(wav_rest, fwav, crop_range):
 def interpolate_to_std_domain(wav_rest, fwav):
 
     wav_rest_standard = [i*stepsize for i in range(4686-150, 4686+150)]
-    fwav_interp = 
+    fwav_interp = np.interp(wav_rest_standard, wav_rest, fwav)
+    wav_rest = wav_rest_standard
+    fwav = fwav_interp
 
 def save_result():
 
@@ -123,8 +125,6 @@ def save_result():
     wav_rest, fwav = remove_slope(wav_rest, fwav)
     wav_rest, fwav = gaussian_smooth(wav_rest, fwav)
     wav_rest, fwav = interpolate_to_std_domain(wav_rest, fwav)
-
-
 
     output_filename = 'spec-%s.csv' % SpecID
 
