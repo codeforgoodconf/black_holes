@@ -6,16 +6,14 @@
     <title>
         Black Hole Sort
     </title>
-    <!--<link href="https://fonts.googleapis.com/css?family=Playfair+Display|Roboto:100" rel="stylesheet">-->
-    <!--<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">-->
-    <link rel="stylesheet" href="style.css">
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+
 
 </head>
 
 <body>
 
-    <div class = 'content'>
+    <div class = 'content' align="center">
 
         <h1>Black Hole or Not Black Hole?</h1>
 
@@ -25,9 +23,9 @@
 
     </div>
 
-    <div class = 'image'>
+    <div class = 'image' align="center">
 
-        <img src="{{ url_for('static', filename='blackhole.jpg') }}"/>
+        <img src="{{ url_for('static', filename='blackhole.jpg') }}" width="800"/>
 
     </div>
 
