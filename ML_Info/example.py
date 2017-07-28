@@ -36,7 +36,6 @@ SpecID = '%s0%s' % (SpecID[:-3], SpecID[-3:])
 # Open spectrum FITS file
 spec_path = spec_dir + 'spec-%s.fits' % SpecID
 
-print spec_path
 hdulist = fits.open(spec_path)
 
 # A simple demonstration of the FITS file structure
