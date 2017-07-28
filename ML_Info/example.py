@@ -6,13 +6,13 @@ mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 
 """
-A simple example of some of AstroPy's functionality with Flexible Image 
-Transport System (FITS) files. This script will load a random spectrum from 
-Brinchmann et al. (2008): http://adsabs.harvard.edu/abs/2008A%26A...485..657B 
-so that you can see where the HeII 4686 line and Wolf-Rayet (WR) "blue bump" is 
-found. While the HeII line is easy to spot and parameterize, the shape and width 
-of the blue bump varies quite a bit. Hence why I'm hoping machine learning can 
-help make a more complete sample of WR galaxies from the SDSS Legacy (DR7) 
+A simple example of some of AstroPy's functionality with Flexible Image
+Transport System (FITS) files. This script will load a random spectrum from
+Brinchmann et al. (2008): http://adsabs.harvard.edu/abs/2008A%26A...485..657B
+so that you can see where the HeII 4686 line and Wolf-Rayet (WR) "blue bump" is
+found. While the HeII line is easy to spot and parameterize, the shape and width
+of the blue bump varies quite a bit. Hence why I'm hoping machine learning can
+help make a more complete sample of WR galaxies from the SDSS Legacy (DR7)
 survey.
 """
 
@@ -40,14 +40,14 @@ print spec_path
 hdulist = fits.open(spec_path)
 
 # A simple demonstration of the FITS file structure
-print "\nA simple demonstration of the SDSS spectrum FITS file stucture"
-print "\nHDU 0 data: "
-print hdulist[0].data
-print "... Spectral files have no 2D array (e.g., an image)"
-print "\nFiber right ascension: %s" % hdulist[0].header['PLUG_RA']
-print "Fiber declination: %s" % hdulist[0].header['PLUG_DEC']
-print "... HDU 0 header contains observation information."
-print ("\nHere's the spectrum.\nDotted line: where HeII 4686 is found." +
+print("\nA simple demonstration of the SDSS spectrum FITS file stucture")
+print("\nHDU 0 data: ")
+print(hdulist[0].data)
+print("... Spectral files have no 2D array (e.g., an image)")
+print("\nFiber right ascension: %s" % hdulist[0].header['PLUG_RA'])
+print("Fiber declination: %s" % hdulist[0].header['PLUG_DEC'])
+print("... HDU 0 header contains observation information.")
+print("\nHere's the spectrum.\nDotted line: where HeII 4686 is found." +
        "\nBlue shading: where the WR blue bump is found.")
 
 # Get wavelength data, and correct it to the rest-frame of the galaxy:
@@ -67,7 +67,7 @@ fig, ax = plt.subplots()
 def find_nearest(array,value):
     """Quick nearest-value finder."""
     return int((np.abs(array-value)).argmin())
-    
+
 norm = fwav[find_nearest(wav_rest, 5100)]
 fwav = fwav / norm
 
