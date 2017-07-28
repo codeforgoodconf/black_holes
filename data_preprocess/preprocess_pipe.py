@@ -65,7 +65,7 @@ def remove_slope(wav_rest, fwav):
 
 def gaussian_smooth(wav_rest, fwav):
 
-    kernel_width = 3
+    kernel_width = 2
     stepsize = wav_rest[1]-wav_rest[0]
     print(stepsize)
 
@@ -113,7 +113,11 @@ def crop_data(wav_rest, fwav, crop_range):
 
 def interpolate_to_std_domain(wav_rest, fwav):
 
-    wav_rest_standard = [i*stepsize for i in range(4686-150, 4686+150)]
+    stepsize = 1.03 #similar to the native step size
+    data_range = [4686-150, 4686+150]
+    wav_rest_standard = [i*stepsize+data_range[0]
+        for i in range(int((data_range[1]-data_range[0])/1.03)+1)]
+    print(wav_rest_standard)
     fwav_interp = np.interp(wav_rest_standard, wav_rest, fwav)
     wav_rest = wav_rest_standard
     fwav = fwav_interp
@@ -123,22 +127,22 @@ def interpolate_to_std_domain(wav_rest, fwav):
 
 def save_result():
 
-    idx = 401 #max 569
+    for idx in range(570):
 
-    wav_rest, fwav, SpecID = get_data(idx)
-    wav_rest, fwav = remove_slope(wav_rest, fwav)
-    wav_rest, fwav = gaussian_smooth(wav_rest, fwav)
-    wav_rest, fwav = interpolate_to_std_domain(wav_rest, fwav)
+        wav_rest, fwav, SpecID = get_data(idx)
+        wav_rest, fwav = remove_slope(wav_rest, fwav)
+        wav_rest, fwav = gaussian_smooth(wav_rest, fwav)
+        wav_rest, fwav = interpolate_to_std_domain(wav_rest, fwav)
 
-    output_filename = 'spec-%s.csv' % SpecID
+        output_filename = 'spec-%s.csv' % SpecID
 
-    output = open(output_filename,"w")
-    output = open(output_filename,"a")
-    for val in fwav:
-        output.write(str(val)+',')
-    output.close()
+        output = open(output_filename,"w")
+        output = open(output_filename,"a")
+        for val in fwav:
+            output.write(str(val)+',')
+        output.close()
 
-    plot(wav_rest,fwav)
+        #plot(wav_rest,fwav)
 
 
 if __name__ == '__main__':
