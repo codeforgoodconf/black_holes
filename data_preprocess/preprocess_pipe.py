@@ -3,14 +3,13 @@ from astropy.io import fits
 from astropy.table import Table
 import matplotlib.pyplot as plt
 
-def get_data():
+def get_data(idx):
 
     spec_dir = '../ML_Info/Brinchmann08_spectra/'
 
     t = Table.read('../ML_Info/Brinchmann08_Tab3and5.fits')
 
     #len(t) = 570
-    idx = 49
 
     SpecID = t[idx]['SpecID']
 
@@ -32,14 +31,8 @@ def get_data():
     # Get flux density, in this case erg/cm^2/s/Angstrom.
     fwav = hdulist[1].data['flux']
 
-    keep_wav = [4686-200, 4686+200]
-    wav_rest_cropped = [wav_rest[i] for i in range(len(wav_rest))
-        if (wav_rest[i] > keep_wav[0] and wav_rest[i] < keep_wav[1])]
-    fwav_cropped = [fwav[i] for i in range(len(wav_rest))
-        if (wav_rest[i] > keep_wav[0] and wav_rest[i] < keep_wav[1])]
-
-    wav_rest = wav_rest_cropped
-    fwav = fwav_cropped
+    crop_range = [4686-200, 4686+200]
+    wav_rest, fwav = crop_data(wav_rest, fwav, crop_range)
 
     hdulist.close()
 
@@ -69,37 +62,69 @@ def remove_slope(wav_rest, fwav):
 
     return wav_rest, fwav
 
+
 def gaussian_smooth(wav_rest, fwav):
 
-    kernel_width = 3. #kernel width in angstroms
+    kernel_width = 3
     stepsize = wav_rest[1]-wav_rest[0]
+    print(stepsize)
+
     num_steps = int(kernel_width/stepsize * 3) #Calculate out to 1%
     kernel = [np.exp(-((i*stepsize)**2)/(2*kernel_width**2))
         for i in range(num_steps)]
     kernel = kernel[::-1] + kernel[1:]
     kernel = [i/np.sum(kernel) for i in kernel] #normalize the kernel
 
-    fwav_norm = [0]*(len(fwav)-len(kernel)+1)
-    wav_rest_norm = [0]*(len(fwav)-len(kernel)+1)
-    for i in range(len(fwav_norm)):
+    fwav_smooth = [0]*(len(fwav)-len(kernel)+1)
+    wav_rest_smooth = [0]*(len(fwav)-len(kernel)+1)
+    for i in range(len(fwav_smooth)):
         use_fwav_vals = fwav[i:i+len(kernel)]
-        fwav_norm[i] = np.sum([use_fwav_vals[j]*kernel[j]
+        fwav_smooth[i] = np.sum([use_fwav_vals[j]*kernel[j]
             for j in range(len(kernel))])
-        wav_rest_norm[i] = wav_rest[i+int((len(kernel)-1)/2)]
+        wav_rest_smooth[i] = wav_rest[i+int((len(kernel)-1)/2)]
 
-    wav_rest = wav_rest_norm
-    fwav = fwav_norm
+    wav_rest = wav_rest_smooth
+    fwav = fwav_smooth
+
+    crop_range = [4686-150, 4686+150]
+    wav_rest, fwav = crop_data(wav_rest, fwav, crop_range)
+
     return wav_rest, fwav
 
-def plot(wav_rest,fwav):
+
+def plot(wav_rest, fwav):
 
     plt.plot(wav_rest,fwav)
+    plt.xlim([4686-150, 4686+150])
     plt.show()
 
+
+def crop_data(wav_rest, fwav, crop_range):
+
+    wav_rest_cropped = [wav_rest[i] for i in range(len(wav_rest))
+        if (wav_rest[i] > crop_range[0] and wav_rest[i] < crop_range[1])]
+    fwav_cropped = [fwav[i] for i in range(len(wav_rest))
+        if (wav_rest[i] > crop_range[0] and wav_rest[i] < crop_range[1])]
+    wav_rest = wav_rest_cropped
+    fwav = fwav_cropped
+
+    return wav_rest, fwav
+
+def interpolate_to_std_domain(wav_rest, fwav):
+
+    wav_rest_standard = [i*stepsize for i in range(4686-150, 4686+150)]
+    fwav_interp = 
+
 def save_result():
-    wav_rest, fwav, SpecID = get_data()
+
+    idx = 401 #max 569
+
+    wav_rest, fwav, SpecID = get_data(idx)
     wav_rest, fwav = remove_slope(wav_rest, fwav)
     wav_rest, fwav = gaussian_smooth(wav_rest, fwav)
+    wav_rest, fwav = interpolate_to_std_domain(wav_rest, fwav)
+
+
 
     output_filename = 'spec-%s.csv' % SpecID
 
@@ -110,8 +135,6 @@ def save_result():
     output.close()
 
     plot(wav_rest,fwav)
-
-
 
 
 if __name__ == '__main__':
