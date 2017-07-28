@@ -10,7 +10,7 @@ def get_data():
     t = Table.read('../ML_Info/Brinchmann08_Tab3and5.fits')
 
     #len(t) = 570
-    idx = 300
+    idx = 49
 
     SpecID = t[idx]['SpecID']
 
@@ -91,19 +91,27 @@ def gaussian_smooth(wav_rest, fwav):
     fwav = fwav_norm
     return wav_rest, fwav
 
+def plot(wav_rest,fwav):
+
+    plt.plot(wav_rest,fwav)
+    plt.show()
+
 def save_result():
     wav_rest, fwav, SpecID = get_data()
     wav_rest, fwav = remove_slope(wav_rest, fwav)
     wav_rest, fwav = gaussian_smooth(wav_rest, fwav)
 
-    output_path = '../preprocessed_data/'
     output_filename = 'spec-%s.csv' % SpecID
 
-    output = open(output_path+output_filename,"w")
-    output = open(output_path+output_filename,"a")
+    output = open(output_filename,"w")
+    output = open(output_filename,"a")
     for val in fwav:
         output.write(str(val)+',')
     output.close()
+
+    plot(wav_rest,fwav)
+
+
 
 
 if __name__ == '__main__':
