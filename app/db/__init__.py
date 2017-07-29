@@ -13,6 +13,7 @@ class Galaxy(db.Model):
     tf_label = db.Column(db.Boolean)
     human_label = db.Column(db.Boolean)
 
+
     def __init__(self, label_lower, label_upper, file_url, tf_value, tf_label, human_label):
         self.label_lower = label_lower
         self.label_upper = label_upper

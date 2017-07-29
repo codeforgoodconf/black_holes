@@ -9,8 +9,7 @@ from app.db import db, Galaxy
 @app.route("/")
 @app.route("/index")
 def hello():
-    someplotdiv = "THERE IS THE BIG PLT"
-
+    someplotdiv = generate_plot(5)
     return render_template("homepage.html", someplot=someplotdiv) #Hello World"
 
 @app.route("/about")
@@ -29,7 +28,7 @@ def unlabled_samples():
 
 
 @app.route("/gimmeplot")
-def generate_plot():
+def generate_plot(id):
     galaxyList = Galaxy.query.all()
     xs, ys = FitsLoader().load_fits("spectrum_data/spec-1342-52793-0537.fits")
     div = PlotBuilder().build(xs, ys)
