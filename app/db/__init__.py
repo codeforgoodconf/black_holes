@@ -1,10 +1,11 @@
 from app import app
+from flask_sqlalchemy import SQLAlchemy
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 
 class Galaxy(db.Model):
-    id = db.Column(db.Integer, primary_key = true)
+    id = db.Column(db.Integer, primary_key = True)
     label_lower = db.Column(db.Float)
     label_upper = db.Column(db.Float)
     file_url = db.Column(db.String)
