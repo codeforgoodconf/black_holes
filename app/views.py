@@ -27,6 +27,8 @@ def unlabled_samples():
 
 
 def generate_plot(id):
+
+    
     xs, ys = FitsLoader().load_fits("spectrum_data/spec-1342-52793-0537.fits")
     div = PlotBuilder().build(xs, ys)
 
