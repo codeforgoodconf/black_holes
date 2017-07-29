@@ -2,14 +2,11 @@ import numpy as np
 from astropy.io import fits
 from astropy.table import Table
 import matplotlib.pyplot as plt
+import os
 
-def get_data(idx):
-
-    spec_dir = '../raw_data/Brinchmann08_spectra/'
+def get_wr_data(idx, spec_dir):
 
     t = Table.read('../raw_data/Brinchmann08_Tab3and5.fits')
-
-    #len(t) = 570
 
     SpecID = t[idx]['SpecID']
 
@@ -27,6 +24,27 @@ def get_data(idx):
     z =  t[idx]['z']
 
     wav_rest = wav / (1 + z)    # See https://en.wikipedia.org/wiki/Redshift
+
+    # Get flux density, in this case erg/cm^2/s/Angstrom.
+    fwav = hdulist[1].data['flux']
+
+    crop_range = [4686-250, 4686+250]
+    wav_rest, fwav = crop_data(wav_rest, fwav, crop_range)
+
+    hdulist.close()
+
+    return wav_rest, fwav, SpecID
+
+
+def get_notwr_data(idx, spec_dir, filenames):
+
+    spec_path = spec_dir+filenames[idx]
+    SpecID = spec_path[6:21]
+
+    hdulist = fits.open(spec_path)
+
+    # Get wavelength data
+    wav_rest = 10**hdulist[1].data['loglam']
 
     # Get flux density, in this case erg/cm^2/s/Angstrom.
     fwav = hdulist[1].data['flux']
@@ -125,29 +143,43 @@ def interpolate_to_std_domain(wav_rest, fwav):
 
 def save_result():
 
+    wr_flag = 0
+
+    if wr_flag == 1:
+        data_dir = '../raw_data/Brinchmann08_spectra/'
+
+    if wr_flag == 0:
+        data_dir = '../raw_data/negativeSpectra/'
+
     output_filename = 'data_preprocessed.csv'
-    output = open(output_filename,"w")
+    #output = open(output_filename,"w")
     output = open(output_filename,"a")
 
-    for idx in range(570):
-    #for idx in [300]:
+    filenames = [name for name in os.listdir(data_dir)
+        if os.path.isfile(data_dir+name)]
 
-        wav_rest, fwav, SpecID = get_data(idx)
+    for idx in range(len(filenames)):
+
+        if wr_flag == 1:
+            wav_rest, fwav, SpecID = get_wr_data(idx, data_dir)
+        else:
+            wav_rest, fwav, SpecID = get_notwr_data(idx, data_dir, filenames)
         wav_rest, fwav = remove_slope(wav_rest, fwav)
         wav_rest, fwav = gaussian_smooth(wav_rest, fwav)
         wav_rest, fwav = interpolate_to_std_domain(wav_rest, fwav)
 
-        print('Saving data for observation {} out of {}'.format(idx,570))
+        print('Saving data for observation {} out of {}'.format(idx+1,
+            len(filenames)))
 
-        if idx != 0:
+        #if idx != 0:
+        if True:
             output.write('\n')
-        output.write(str(SpecID))
+        output.write(str(SpecID)+','+str(wr_flag))
         for val in fwav:
             output.write(','+str(val))
 
     output.close()
-    #plot(wav_rest, fwav)
-
+    
 
 if __name__ == '__main__':
     save_result()
