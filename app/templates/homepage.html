@@ -14,7 +14,6 @@
 <style>
 body {
   background: #cbe4e6;
-
 }
 
 </style>
@@ -34,7 +33,7 @@ body {
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/about">About <span class="sr-only">(current)</span></a></li>
+        <li><a href="/about">About <span class="sr-only">(current)</span></a></li>
         <li><a href="https://www.nasa.gov/audience/forstudents/5-8/features/nasa-knows/what-is-a-black-hole-58.html">Black Holes</a></li>
     </div>
   </div>
@@ -46,7 +45,7 @@ body {
 
         <h2>The best black hole sorting app ;)</h2>
 
-        <p> Please look at the spectrum below and determine whether or not it demonstrates black hole behavior (?)</p>
+        <p> Does this spectrum have a WR bump?
 
     </div>
 
@@ -57,15 +56,13 @@ body {
 
     </div>
 </center>
-
+<br>
     <div align="center">
 
-        <a href="#" class="btn btn-primary" >Yes Good </a>
-        <a href="#" class="btn btn-primary" >No Bad  </a>
-        <a href="#" class="btn btn-primary" >Skip </a>
-
+        <a href="add_label?id={{id}}&is_wr=True" class="btn btn-primary" >Yes</a>
+        <a href="add_label?id={{id}}&is_wr=False" class="btn btn-primary" >No</a>
+        <a href="index" class="btn btn-primary" >Skip </a>
     </div>
-
-
+<br><br><br>
 </body>
     </html>

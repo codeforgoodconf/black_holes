@@ -12,7 +12,7 @@ from plotly.graph_objs import Scatter, Layout
 # upper limit = 5300
 
 class PlotBuilder:
-    def build(self, x, y, title="plot title"):
+    def build(self, x, y, title=""):
         div = plotly.offline.plot({
             "data": [Scatter(x=x, y=y)],
             "layout": Layout(title=title,
