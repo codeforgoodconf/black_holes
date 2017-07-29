@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, redirect
 
 from app import app
 from app.source.FitsLoader import FitsLoader
@@ -16,23 +16,14 @@ def hello():
 def about():
     return render_template("about.html")
 
-@app.route("/next", methods=["GET"])
-def new_function():
-    id = request.args[0]
-    if is_af != "skip":
-        if is_af == "true":
-            is_af = True
-        else:
-            is_af = False
-    else:
-        is_af = Null
-    return "My name is world, hello"
+
+@app.route("/add_label")
+def update_label():
+    id = request.args['id']
+    new_wr = request.args['is_wr']
 
 
-@app.route("/unlabeled_samples")
-def unlabled_samples():
-
-    return "return a plot that has the unlabeled dataset"
+    return redirect('/')
 
 
 def generate_plot():
