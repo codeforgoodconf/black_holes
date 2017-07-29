@@ -27,7 +27,7 @@ class Controller:
 
 
     def rand_galaxy(self):
-        galaxy = Galaxy.query.get(randint(1, len(Galaxy.query.all())))
+        galaxy = db.session.query(Galaxy).filter_by(human_label = None)[0]
         return galaxy
 
     def create_new_galaxy(self, path):
