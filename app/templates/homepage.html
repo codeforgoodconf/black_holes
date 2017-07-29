@@ -33,7 +33,7 @@ body {
 
         <ul class="pager">
           <li><a href="#">Previous</a></li>
-            <li><img src="{{ url_for('static', filename='blackhole.jpg') }}" width="800"/></li>
+            <li><img src="{{ url_for('static', filename= 'blackhole.jpg') }}" width="800"/></li>
           <li><a href="#">Next</a></li>
         </ul>
 
@@ -44,6 +44,10 @@ body {
         <a href="#" class="btn btn-primary">Yes good </a>
         <a href="#" class="btn btn-primary">No bad  </a>
 
+    </div>
+
+    <div>
+       <p>{{ someplot }}</p>
     </div>
 
 
