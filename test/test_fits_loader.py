@@ -10,7 +10,7 @@ def test_loaded():
 
     assert isinstance(fits, tuple)
     assert len(fits) == 2
-    assert isinstance(fits[0], list)
+
 
 
 
