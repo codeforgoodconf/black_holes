@@ -1,7 +1,6 @@
 from app.db import db, Galaxy
 import os
 
-db.create_all()
 
 
 # load all filenames in spectrum_data folder
@@ -11,8 +10,6 @@ def get_file_list(path):
     return file_list
 
 
-DIR = "spectrum_data"
-file_list = get_file_list(DIR)
 
 
 def create_new_galaxy(path):
@@ -27,9 +24,26 @@ def create_new_galaxy(path):
     return galaxy
 
 
-galaxies = [create_new_galaxy(filename) for filename in file_list]
 
-db.session.add_all(galaxies)
-db.session.commit()
 
-print(Galaxy.query.all())
+
+
+def seed_db():
+    print("SEED DB")
+
+    db.drop_all()
+    db.create_all()
+
+    DIR = "spectrum_data"
+    file_list = get_file_list(DIR)
+
+    galaxies = [create_new_galaxy(f"{DIR}/{filename}") for filename in file_list]
+
+    db.session.add_all(galaxies)
+    db.session.commit()
+
+    print(Galaxy.query.all())
+
+
+
+
