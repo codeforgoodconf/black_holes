@@ -2,11 +2,12 @@
 # NOTE: include plotly js script above this div for it to work
 
 
-import unittest
-
-import plotly
-from plotly.graph_objs import Scatter, Layout
 import random
+import plotly
+
+from plotly.graph_objs import Scatter, Layout
+
+
 
 class PlotBuilder:
     def build(self, x, y, title="plot title"):
