@@ -9,7 +9,7 @@ from app.db.controls import Controller
 @app.route("/")
 @app.route("/index")
 def hello():
-    someplotdiv = generate_plot(rand_galaxy())
+    someplotdiv = generate_plot(Controller().rand_galaxy())
     return render_template("homepage.html", someplot=someplotdiv) #Hello World"
 
 @app.route("/about")
