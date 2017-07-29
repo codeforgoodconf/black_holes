@@ -1,14 +1,14 @@
 from app.db import db, Galaxy
 from random import randint
 
-class Controller:
 
+class Controller:
     def add_galaxy(self, file_url, human_label=None, tf_label=None):
-        galaxy = Galaxy(file_url,human_label,tf_label)
+        galaxy = Galaxy(file_url, human_label, tf_label)
         db.session.add(galaxy)
 
     def update_human_label(self, id, human_label):
-        #galaxy_query = db.session.query(Galaxy).filter_by(id=id)
+        # galaxy_query = db.session.query(Galaxy).filter_by(id=id)
 
 
         galaxy = Galaxy.query.get(id)
@@ -25,9 +25,8 @@ class Controller:
         # db.session.commit()
         return 1
 
-
     def rand_galaxy(self):
-        galaxy = db.session.query(Galaxy).filter_by(human_label = None)[0]
+        galaxy = db.session.query(Galaxy).filter_by(human_label=None)[0]
         return galaxy
 
     def create_new_galaxy(self, path):
