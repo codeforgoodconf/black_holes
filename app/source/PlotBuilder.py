@@ -8,14 +8,19 @@ import plotly
 from plotly.graph_objs import Scatter, Layout
 
 
+# lower limit = 4200
+# upper limit = 5300
 
 class PlotBuilder:
     def build(self, x, y, title=""):
         div = plotly.offline.plot({
             "data": [Scatter(x=x, y=y)],
-            "layout": Layout(title=title)
-        }, output_type='div', include_plotlyjs=False)
+            "layout": Layout(title=title,
 
+                             xaxis=dict(range=[4200, 5300]),
+                             yaxis=dict(range=[0.5, 2]),
+                             )
+        }, output_type='div', include_plotlyjs=False)
 
         return div
 
@@ -25,8 +30,3 @@ class PlotBuilder:
 
         div = self.build(x, y)
         return div
-
-    
-
-
-
