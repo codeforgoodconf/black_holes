@@ -1,12 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+    <title>
+        Galaxy Information
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</head>
+
+
+<body>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <
+        <th>File URL</th>
+        <th>Human label</th>
+        <th>TF label</th>
+    </tr>
+    </thead>
+    <!--<tbody>-->
+
+
+    <tbody>
     {% for g in galaxies %}
-      {{ g.file_url }}
+
+    <tr>
+        <td>{{ g.id }}</td>
+        <td>{{ g.file_url }}</td>
+        <td>{{ g.human_label }}</td>
+        <td>{{ g.tf_label }}</td>
+    </tr>
+
     {% endfor %}
-  </body>
+    </tbody>
+
+
+</body>
 </html>

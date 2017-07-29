@@ -6,11 +6,16 @@ from app.source.PlotBuilder import PlotBuilder
 from app.db import Galaxy
 from app.db.controls import Controller
 
+
 @app.route("/")
 @app.route("/index")
 def hello():
-    someplotdiv = generate_plot(Controller().rand_galaxy())
-    return render_template("homepage.html", someplot=someplotdiv) #Hello World"
+    galaxy = Controller().rand_galaxy()
+    galaxy_id = galaxy.id
+
+    someplotdiv = generate_plot(galaxy)
+    return render_template("homepage.html", someplot=someplotdiv, id=galaxy_id)  # Hello World"
+
 
 @app.route("/about")
 def about():
@@ -21,19 +26,20 @@ def about():
 def update_label():
     id = request.args['id']
     new_wr = request.args['is_wr']
-    Controller().update_human_label(id,new_wr)
+    print(f"ID: {id}, label: {new_wr}")
+    success = Controller().update_human_label(id, new_wr)
+    assert success
     return redirect('/')
 
 
 def generate_plot(galaxy):
-    # galaxy = Galaxy.query.get(id)
     xs, ys = FitsLoader().load_fits(galaxy.file_url)
     div = PlotBuilder().build(xs, ys)
 
     return div
 
+
 @app.route("/galaxy")
 def get_galaxies():
     galaxyList = Galaxy.query.all()
-
-    return render_template("galaxies.html", galaxies = galaxyList)
+    return render_template("galaxies.html", galaxies=galaxyList)
