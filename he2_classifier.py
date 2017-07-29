@@ -45,7 +45,7 @@ def is_he2(wls, fxs):
     wl_min = 4686-5
     wl_max = 4686+5
     difference = 0
-    for i,wl in wls:
+    for i,wl in enumerate(wls):
         if wl_min < wl < wl_max:
             difference += fxs[i]
     return difference > 0
@@ -66,11 +66,11 @@ def process_file(path, wl_min, wl_max, n_samples):
     remove_slope(wls, fxs)
     wls, fxs = crop_data(wls, fxs, wl_min, wl_max)
     wls, fxs = standardize_domain(wls, fxs, wl_min, wl_max, n_samples)
-    #if is_he2(wls, fxs):
-    return fxs
+    if is_he2(wls, fxs):
+        return fxs
 
 
-def process_folder(path, wl_min, wl_max, n_samples, label):
+def process_folder(path, wl_min, wl_max, n_samples, label=None):
     r = []
     file_paths = [join(path, f) for f in listdir(path) if isfile(join(path, f)) and f.endswith('.fits')]
     for file_path in file_paths:
@@ -80,7 +80,8 @@ def process_folder(path, wl_min, wl_max, n_samples, label):
         else:
             print('including ' + file_path)
             flux = list(flux)
-            flux.append(label)
+            if label is not None:
+                flux.insert(0, label)
             r.append(flux)
     return r
 
@@ -104,9 +105,16 @@ def main():
     
     table_negative = process_folder('./raw_data/hasHe2_NoWR/', wl_min, wl_max, n_samples, 0)
     table_positive = process_folder('./raw_data/Brinchmann08_spectra', wl_min, wl_max, n_samples, 1)
-    
-    table_negative.extend(table_negative)
+    table_negative.extend(table_positive)
     save_csv(table_negative)
+    
+    
+    #table_he2 = process_folder('./raw_data/firstThousandSpectra/thousandSpectra/', wl_min, wl_max, n_samples)
+    #save_csv(table_he2)
+    
+    
+    
+    
         
 
 if __name__ == '__main__':
