@@ -12,7 +12,9 @@ def hello():
 
     return render_template("homepage.html", someplot=someplotdiv) #Hello World"
 
-
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
 @app.route("/helloworld", methods=["GET"])
 def new_function():
