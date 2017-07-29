@@ -4,7 +4,7 @@ from app import app
 from app.source.FitsLoader import FitsLoader
 from app.source.PlotBuilder import PlotBuilder
 from app.db import Galaxy
-from app.db.controls import update_human_label,rand_galaxy
+from app.db.controls import Controller
 
 @app.route("/")
 @app.route("/index")
@@ -21,7 +21,7 @@ def about():
 def update_label():
     id = request.args['id']
     new_wr = request.args['is_wr']
-    update_human_label(id,new_wr)
+    Controller().update_human_label(id,new_wr)
     return redirect('/')
 
 
