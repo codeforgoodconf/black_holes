@@ -10,3 +10,5 @@ def update_human_label(id, human_label):
 
 def rand_galaxy():
     galaxy = Galaxy.query.get(randint(1, len(Galaxy.query.all())))
+    return galaxy
+
