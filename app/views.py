@@ -27,9 +27,8 @@ def unlabled_samples():
     return "return a plot that has the unlabeled dataset"
 
 
-def generate_plot():
-    galaxyList = Galaxy.query.all()
-    galaxy = galaxyList[0]
+def generate_plot(id):
+    galaxy = Galaxy.query.get(id)
     xs, ys = FitsLoader().load_fits(galaxy.file_url)
     div = PlotBuilder().build(xs, ys)
 
@@ -37,4 +36,6 @@ def generate_plot():
 
 @app.route("/galaxy")
 def get_galaxies():
+    galaxyList = Galaxy.query.all()
+
     return render_template("galaxies.html", galaxies = galaxyList)
