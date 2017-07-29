@@ -41,11 +41,13 @@ def crop_data(wls, fxs, wl_min, wl_max):
     return wlsc, fxsc
 
 
-def is_he2(fxs):
-    mean = np.mean(fxs)
+def is_he2(wls, fxs):
+    wl_min = 4686-5
+    wl_max = 4686+5
     difference = 0
-    for fx in fxs:
-        difference += fx-mean
+    for i,wl in wls:
+        if wl_min < wl < wl_max:
+            difference += fxs[i]
     return difference > 0
 
 
@@ -64,8 +66,8 @@ def process_file(path, wl_min, wl_max, n_samples):
     remove_slope(wls, fxs)
     wls, fxs = crop_data(wls, fxs, wl_min, wl_max)
     wls, fxs = standardize_domain(wls, fxs, wl_min, wl_max, n_samples)
-    if is_he2(fxs):
-        return fxs
+    #if is_he2(wls, fxs):
+    return fxs
 
 
 def process_folder(path, wl_min, wl_max, n_samples, label):
@@ -86,10 +88,11 @@ def process_folder(path, wl_min, wl_max, n_samples, label):
 def save_csv(table):
     name = 'compiled'+datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + '.csv'
     with open(name, 'w') as file:
-        for row in table:
-            for element in row:
-                file.write(str(element))
-                file.write(',')
+        for i in range(len(table)):
+            for j in range(len(table[i])):
+                file.write(str(table[i][j]))
+                if j < len(table[i])-1:
+                    file.write(',')
             file.write('\n')
 
 
@@ -99,7 +102,7 @@ def main():
     wl_max = 4686+150
     n_samples = 100
     
-    table_negative = process_folder('./raw_data/negativeSpectra/', wl_min, wl_max, n_samples, 0)
+    table_negative = process_folder('./raw_data/hasHe2_NoWR/', wl_min, wl_max, n_samples, 0)
     table_positive = process_folder('./raw_data/Brinchmann08_spectra', wl_min, wl_max, n_samples, 1)
     
     table_negative.extend(table_negative)
