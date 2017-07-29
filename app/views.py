@@ -15,6 +15,7 @@ def hello():
 def about():
     return render_template("about.html")
 
+
 @app.route("/helloworld", methods=["GET"])
 def new_function():
     return "My name is world, hello"
