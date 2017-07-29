@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, request
 
 from app import app
 from app.source.FitsLoader import FitsLoader
@@ -15,8 +15,16 @@ def hello():
 def about():
     return render_template("about.html")
 
-@app.route("/helloworld", methods=["GET"])
+@app.route("/next", methods=["GET"])
 def new_function():
+    id = request.args[0]
+    if is_af != "skip":
+        if is_af == "true":
+            is_af = True
+        else:
+            is_af = False
+    else:
+        is_af = Null
     return "My name is world, hello"
 
 
