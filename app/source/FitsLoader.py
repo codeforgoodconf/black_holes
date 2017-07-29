@@ -10,15 +10,22 @@ class FitsLoader:
         z = hdu[2].data['Z'][0]    # This is the redshift
         hdu.close()
 
-        wav = 10**(dat['loglam'])/(1+z)    # Convert to rest-frame
-        flx = dat['flux']
+        wav_rest= 10**(dat['loglam'])/(1+z) #convert to rest frame
+           # See https://en.wikipedia.org/wiki/Redshift
+        fwav = dat['flux']    # Get flux density, in this case erg/cm^2/s/Angstrom.
 
-        idx = np.where((wav > 4200) & (wav < 5200))
+        #xs = np.log(wav[idx])
+        #ys = np.log(flx[idx])
 
-        xs = np.log(wav[idx])
-        ys = np.log(flx[idx])
+        # Normalize the spectrum for plotting purposes.
+        def find_nearest(array, value):
+            """Quick nearest-value finder."""
+            return int((np.abs(array - value)).argmin())
 
-        return xs, ys
+        norm = fwav[find_nearest(wav_rest, 5100)]
+        fwav = fwav / norm
+
+        return wav_rest, fwav
 
 
 
