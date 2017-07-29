@@ -15,8 +15,8 @@ class FitsLoader:
 
         idx = np.where((wav > 4200) & (wav < 5200))
 
-        xs = wav[idx]
-        ys = flx[idx]
+        xs = np.log(wav[idx])
+        ys = np.log(flx[idx])
 
         return xs, ys
 
