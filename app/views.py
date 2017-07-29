@@ -9,7 +9,7 @@ from app.db import db, Galaxy
 @app.route("/")
 @app.route("/index")
 def hello():
-    someplotdiv = generate_plot(5)
+    someplotdiv = generate_plot()
     return render_template("homepage.html", someplot=someplotdiv) #Hello World"
 
 @app.route("/about")
@@ -35,10 +35,10 @@ def unlabled_samples():
     return "return a plot that has the unlabeled dataset"
 
 
-@app.route("/gimmeplot")
-def generate_plot(id):
+def generate_plot():
     galaxyList = Galaxy.query.all()
-    xs, ys = FitsLoader().load_fits("spectrum_data/spec-1342-52793-0537.fits")
+    galaxy = galaxyList[0]
+    xs, ys = FitsLoader().load_fits(galaxy.file_url)
     div = PlotBuilder().build(xs, ys)
 
     return div
