@@ -3,6 +3,7 @@ from flask import render_template
 from app import app
 from app.source.FitsLoader import FitsLoader
 from app.source.PlotBuilder import PlotBuilder
+from app.db import db, Galaxy
 
 
 @app.route("/")
@@ -26,14 +27,14 @@ def unlabled_samples():
     return "return a plot that has the unlabeled dataset"
 
 
+@app.route("/gimmeplot")
 def generate_plot(id):
-
-    
+    galaxyList = Galaxy.query.all()
     xs, ys = FitsLoader().load_fits("spectrum_data/spec-1342-52793-0537.fits")
     div = PlotBuilder().build(xs, ys)
 
     return div
 
-
-
-
+@app.route("/galaxy")
+def get_galaxies():
+    return render_template("galaxies.html", galaxies = galaxyList)
