@@ -14,14 +14,9 @@
 <center>
     <div style="display: inline-block">
         <p> Machine says: </p>
-        <p> hi :-)</p>
-        <!--<img src="{{url_for('static', filename='space-spiral-galaxy-messier-101.png')}}" style="width: 10%" vspace="10" hspace="30">-->
-        <!--<img src="{{url_for('static', filename='space-spiral-galaxy-messier-101.png')}}" style="width: 10%" vspace="10" hspace="30">-->
-        <!--<img src="{{url_for('static', filename='space-spiral-galaxy-messier-101.png')}}" style="width: 10%" vspace="10" hspace="30">-->
-
-        <!--<div class="well">-->
-        <!--<p> answer </p>-->
-        <!--</div>-->
+        <div class="well well-sm">
+            <p> {{answer}} </p>
+        </div>
      </div>
     <br>
     <div style= "width: 70%" align="center">
@@ -33,9 +28,9 @@
 <br>
     <div align="center">
         <p> You say: </p>
-        <a href="add_label?id={{id}}&is_wr=True" class="btn btn-primary" >Yes</a>
-        <a href="add_label?id={{id}}&is_wr=False" class="btn btn-primary" >No</a>
-        <a href="index" class="btn btn-primary" >Skip </a>
+        <a href="verify_machine_label?id={{id}}&is_wr=True" class="btn btn-primary" >Yes</a>
+        <a href="verify_machine_label?id={{id}}&is_wr=False" class="btn btn-primary" >No</a>
+        <a href="verify_machine_label" class="btn btn-primary" >Skip </a>
     </div>
 <br><br><br>
 
