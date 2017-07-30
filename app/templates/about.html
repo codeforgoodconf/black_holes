@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>About</title>
     <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.css')}}">
-
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
 
 </head>
 
@@ -43,17 +43,49 @@
 </div>
 
 <center>
+
 <div class="well" style="width: 50%">
 
-    <p>
-        We are scientists. We are doing really cool science.
-        Help us classify these black holes.
-        If it is a black hole spectrum, click "Yes good." If not, click "No bad."
-        If you have any questions, ask the nearest astrophysicist.
+    <div class="well">
+    <blockquote class="blockquote-reverse">
+        <p>“It is hard to think of practical applications of the black hole. Because practical applications are so
+            remote, many people assume we should not be interested. But this quest to understand the world is what
+            defines us as human beings.”</p>
+        <small>Yuri Milner (1961) </small>
+    </blockquote>
+    </div>
+
+    <!--<div style="display: inline-block">-->
+        <!--<img src="{{url_for('static', filename='space-spiral-galaxy-messier-101.png')}}" style="width: 10%" vspace="10" hspace="30">-->
+        <!--<img src="{{url_for('static', filename='space-spiral-galaxy-messier-101.png')}}" style="width: 10%" vspace="10" hspace="30">-->
+        <!--<img src="{{url_for('static', filename='space-spiral-galaxy-messier-101.png')}}" style="width: 10%" vspace="10" hspace="30">-->
+    <!--</div>-->
+    <center>
+    <div>
+        <img src="{{url_for('static', filename='space.jpeg')}}" style="width: 100%" vspace="10" hspace="30" class="galaxy-img">
+    </div>
+    </center>
+
+    <br>
+    <p align="left">
+        Wolf-Rayet (WR) stars are considered to be highly evolved descendants of the most massive O-stars.
+        They are extreme Population I stars and have spectra characterised by broad emission lines resulting from dense,
+        high-velocity winds. These stars are detectable in external galaxies by their prominent emission lines at around
+        4650-4690 Å (the ``Wolf-Rayet bump''). This bump has been detected in many emission line galaxies (Allen et al.
+        1976, Kunth & Sargent 1981, Kunth & Joubert 1985, Conti 1991, Vacca & Conti 1992; see Schaerer et al. 1999 for
+        the latest updated catalogue), providing a new insight on the process of massive star formation in metal-poor
+        galaxies. Arnault et al. (1989), Cerviño & Mas-Hesse (1994), Meynet (1995) and Schaerer & Vacca (1998) have
+        discussed the dependence of the WR bump strength on the parameters that define the star-forming episodes
+        (metallicity, age, IMF slope, etc.). The two most interesting properties of the Wolf-Rayet bump is its strong
+        dependence on metallicity and the constraints it can impose on the age of the cluster. Since the WR phenomenon
+        is tightly coupled to the generation of strong stellar winds, its incidence decreases significantly with
+        decreasing metallicity, so that at Z = 1/20 Zsun only very massive stars (initial mass > 80 Msun) might become
+        WR stars. This small mass range implies that the detection of the WR bump in low metallicity galaxies can
+        provide important information on the upper mass limit of the IMF.
     </p>
 
-    <p>
-        This project is funded by...like no one. I think.
+    <p align="right">
+        <em> -Daniel Kunth and Göran Östlin, Institut d'Astrophysique de Paris (IAP) </em>
     </p>
 
     <p>
@@ -63,11 +95,6 @@
 
 </div>
 </center>
-
-<div align="center">
-    <a href="http://127.0.0.1:5000/#"><img src="{{url_for('static', filename='blackhole3.jpg')}}" style="width: 50%" vspace="20" </a>
-</div>
-
 
 
 </body>
