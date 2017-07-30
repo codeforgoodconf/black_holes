@@ -24,12 +24,12 @@ def check_machine():
     galaxy_id = galaxy.id
 
     someplotdiv = generate_plot(galaxy)
-    return render_template("affirmation.html", someplot=someplotdiv, id=galaxy_id)
+    machine_label = 'hello'
+    return render_template("affirmation.html", someplot=someplotdiv, id=galaxy_id, answer = machine_label)
 
 @app.route("/about")
 def about():
     return render_template("about.html")
-
 
 @app.route("/add_label")
 def update_label():
@@ -40,6 +40,13 @@ def update_label():
 
     return redirect('/')
 
+@app.route("/verify_machine_label")
+def verify_label():
+    id = request.args['id']
+    new_wr = request.args['is_wr']
+    print(f"ID: {id}, label: {new_wr}")
+    # Controller().update_human_label(id, new_wr)
+    return redirect('/affirmation')
 
 @app.route("/galaxy")
 def get_galaxies():
