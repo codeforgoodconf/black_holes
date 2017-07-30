@@ -82,6 +82,10 @@ def process_file(path, wl_min, wl_max, n_samples, check_he2=False):
 
 def process_folder(path, wl_min, wl_max, n_samples, label=None, check_he2=False):
     r = []
+    r.append(['wl_'+str(lerp(wl_min, wl_max, i/(n_samples-1))) for i in range(n_samples)])
+    r[0].insert(0, 'label')
+    r[0].insert(0, 'file')
+    
     file_paths = [os.path.join(path, f) for f in os.listdir(path) if os.path.isfile(os.path.join(path, f)) and f.endswith('.fits')]
     for file_path in file_paths:
         flux = process_file(file_path, wl_min, wl_max, n_samples, check_he2)
@@ -89,15 +93,17 @@ def process_folder(path, wl_min, wl_max, n_samples, label=None, check_he2=False)
         if flux is not None:
             flux = list(flux)
             file_name = os.path.splitext(os.path.basename(file_path))[0]
-            if label is not None:
+            if label is None:
+                flux.insert(0, '?')
+            else:
                 flux.insert(0, label)
             flux.insert(0, file_name)
             r.append(flux)
     return r
 
 
-def save_csv(table):
-    name = 'compiled'+datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + '.csv'
+def save_csv(name, table):
+    name = name+'-'+datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + '.csv'
     with open(name, 'w') as file:
         for i in range(len(table)):
             for j in range(len(table[i])):
@@ -113,14 +119,13 @@ def main():
     wl_max = 4686+150
     n_samples = 100
     
-    #table_negative = process_folder('./raw_data/hasHe2_NoWR/', wl_min, wl_max, n_samples, 0, False)
-    #table_positive = process_folder('./raw_data/Brinchmann08_spectra', wl_min, wl_max, n_samples, 1, False)
-    #table_negative.extend(table_positive)
-    #save_csv(table_negative)
-    
+    table_negative = process_folder('./raw_data/hasHe2_NoWR/', wl_min, wl_max, n_samples, 0, False)
+    table_positive = process_folder('./raw_data/Brinchmann08_spectra', wl_min, wl_max, n_samples, 1, False)
+    table_negative.extend(table_positive)
+    save_csv('./processed_data/classified', table_negative)
     
     table_he2 = process_folder('./raw_data/firstThousandSpectra/thousandSpectra/', wl_min, wl_max, n_samples, label=None, check_he2=True)
-    save_csv(table_he2)
+    save_csv('./processed_data/unclassified-he2', table_he2)
     
     
     
