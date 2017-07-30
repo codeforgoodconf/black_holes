@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>
-        Galaxy Information
-    </title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% extends "base.html" %}
 
-</head>
-
-
-<body>
+{% block body %}
 <table class="table">
     <thead>
     <tr>
         <th>ID</th>
-        <
+        
         <th>File URL</th>
         <th>Human label</th>
         <th>TF label</th>
@@ -37,7 +26,4 @@
 
     {% endfor %}
     </tbody>
-
-
-</body>
-</html>
+    {% endblock %}

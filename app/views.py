@@ -27,8 +27,8 @@ def update_label():
     id = request.args['id']
     new_wr = request.args['is_wr']
     print(f"ID: {id}, label: {new_wr}")
-    success = Controller().update_human_label(id, new_wr)
-    assert success
+    Controller().update_human_label(id, new_wr)
+
     return redirect('/')
 
 

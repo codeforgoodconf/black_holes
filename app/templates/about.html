@@ -1,40 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>About</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.css')}}">
+{% extends "base.html" %}
 
-
-</head>
-
-<style>
-    body{
-   background: #cbe4e6;
-   }
-
-</style>
-<body>
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/index">BHNBH</a>
-    </div>
-
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="/about">About <span class="sr-only">(current)</span></a></li>
-        <li><a href="https://www.nasa.gov/audience/forstudents/5-8/features/nasa-knows/what-is-a-black-hole-58.html">Black Holes</a></li>
-    </div>
-  </div>
-</nav>
-
+{% block body %}
 <div align="center">
 
     <h1>
@@ -68,7 +34,4 @@
     <a href="http://127.0.0.1:5000/#"><img src="{{url_for('static', filename='blackhole3.jpg')}}" style="width: 50%" vspace="20" </a>
 </div>
 
-
-
-</body>
-</html>
+{% endblock %}

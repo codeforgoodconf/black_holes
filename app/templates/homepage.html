@@ -1,43 +1,6 @@
-<!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% extends "base.html" %}
 
-<head>
-    <title>
-        Black Hole Sort
-    </title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-</head>
-
-<style>
-body {
-  background: #cbe4e6;
-}
-
-</style>
-
-<body>
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">BHNBH</a>
-    </div>
-
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="/about">About <span class="sr-only">(current)</span></a></li>
-        <li><a href="https://www.nasa.gov/audience/forstudents/5-8/features/nasa-knows/what-is-a-black-hole-58.html">Black Holes</a></li>
-    </div>
-  </div>
-</nav>
+{% block body %}
 
     <div class = 'content' align="center">
 
@@ -64,5 +27,6 @@ body {
         <a href="index" class="btn btn-primary" >Skip </a>
     </div>
 <br><br><br>
-</body>
-    </html>
+
+
+{% endblock %}
