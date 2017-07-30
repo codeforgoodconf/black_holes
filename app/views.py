@@ -18,18 +18,21 @@ def index():
     someplotdiv = generate_plot(galaxy)
     return render_template("homepage.html", someplot=someplotdiv, id=galaxy_id)
 
+
 @app.route("/affirmation")
 def check_machine():
-    galaxy = Controller().rand_galaxy()
+    galaxy = Controller().machine_labeled_galaxy()
     galaxy_id = galaxy.id
 
     someplotdiv = generate_plot(galaxy)
-    machine_label = 'hello'
-    return render_template("affirmation.html", someplot=someplotdiv, id=galaxy_id, answer = machine_label)
+    machine_label = galaxy_id.tf_label
+    return render_template("affirmation.html", someplot=someplotdiv, id=galaxy_id, answer=machine_label)
+
 
 @app.route("/about")
 def about():
     return render_template("about.html")
+
 
 @app.route("/add_label")
 def update_label():
@@ -40,6 +43,7 @@ def update_label():
 
     return redirect('/')
 
+
 @app.route("/verify_machine_label")
 def verify_label():
     id = request.args['id']
@@ -47,6 +51,7 @@ def verify_label():
     print(f"ID: {id}, label: {new_wr}")
     # Controller().update_human_label(id, new_wr)
     return redirect('/affirmation')
+
 
 @app.route("/galaxy")
 def get_galaxies():
@@ -59,6 +64,7 @@ def generate_plot(galaxy):
     div = PlotBuilder().build(xs, ys)
 
     return div
+
 
 @app.route("/predict", methods=["GET", "POST"])
 def machine_labels():
@@ -92,9 +98,3 @@ def add_machine_labels(predictions):
     for filename, value in predictions.items():
         print(f"File: {filename}, value: {value}")
         controller.add_machine_label(filename, value)
-
-
-
-
-
-

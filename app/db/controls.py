@@ -14,7 +14,6 @@ class Controller:
         db.session.add(galaxy)
         db.session.commit()
 
-
     def update_machine_affirmation(self, id, affirmation):
         galaxy = Galaxy.query.get(id)
         galaxy.affirmation = affirmation == "True"
@@ -22,10 +21,14 @@ class Controller:
         db.session.add(galaxy)
         db.session.commit()
 
-
     def rand_galaxy(self):
         galaxies = db.session.query(Galaxy).filter_by(human_label=None)
-        galaxy = galaxies[randint(0,30)] #when we have all data change 30 to 400 or something bigger
+        galaxy = galaxies[randint(0, 30)]  # when we have all data change 30 to 400 or something bigger
+        return galaxy
+
+    def machine_labeled_galaxy(self):
+        galaxies = db.session.query(Galaxy).filter(Galaxy.tf_label != None)
+        galaxy = galaxies[randint(0, 30)]  # when we have all data change 30 to 400 or something bigger
         return galaxy
 
     def create_new_galaxy(self, path):
@@ -53,5 +56,3 @@ class Controller:
             galaxy.tf_label = machine_prediction > 0.8
             galaxy.tf_value = machine_prediction
             db.session.commit()
-
-
