@@ -32,3 +32,7 @@ def seed_db():
     db.session.commit()
 
     print(Galaxy.query.all())
+
+
+if __name__ == "__main__":
+    seed_db()
