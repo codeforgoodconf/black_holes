@@ -23,13 +23,20 @@ class Controller:
 
     def rand_galaxy(self):
         galaxies = db.session.query(Galaxy).filter_by(human_label=None)
-        galaxy = galaxies[randint(0, 30)]  # when we have all data change 30 to 400 or something bigger
-        return galaxy
+        if galaxies.count():
+            galaxy = galaxies[randint(0, galaxies.count()-1)]  # when we have all data change 30 to 400 or something bigger
+
+            return galaxy
+        else:
+            return False
 
     def machine_labeled_galaxy(self):
         galaxies = db.session.query(Galaxy).filter(Galaxy.tf_label != None)
-        galaxy = galaxies[randint(0, 30)]  # when we have all data change 30 to 400 or something bigger
-        return galaxy
+        if galaxies.count():
+            galaxy = galaxies[randint(0, galaxies.count()-1)]  # when we have all data change 30 to 400 or something bigger
+            return galaxy
+        else:
+            return False
 
     def create_new_galaxy(self, path):
         galaxy = Galaxy(

@@ -13,19 +13,29 @@ import json
 @app.route("/index")
 def index():
     galaxy = Controller().rand_galaxy()
-    galaxy_id = galaxy.id
+    if galaxy:
+        galaxy_id = galaxy.id
 
-    someplotdiv = generate_plot(galaxy)
+        someplotdiv = generate_plot(galaxy)
+    else:
+        galaxy_id = None
+        someplotdiv = "All of the Galaxies have been labeled. Thank You"
+
     return render_template("homepage.html", someplot=someplotdiv, id=galaxy_id)
 
 
 @app.route("/affirmation")
 def check_machine():
     galaxy = Controller().machine_labeled_galaxy()
-    galaxy_id = galaxy.id
+    if galaxy:
+        galaxy_id = galaxy.id
 
-    someplotdiv = generate_plot(galaxy)
-    machine_label = galaxy_id.tf_label
+        someplotdiv = generate_plot(galaxy)
+        machine_label = galaxy.tf_label
+    else:
+        galaxy_id = None
+        someplotdiv = "There are no machine labels yet"
+        machine_label = None
     return render_template("affirmation.html", someplot=someplotdiv, id=galaxy_id, answer=machine_label)
 
 
