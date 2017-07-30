@@ -14,8 +14,15 @@ def hello():
     galaxy_id = galaxy.id
 
     someplotdiv = generate_plot(galaxy)
-    return render_template("homepage.html", someplot=someplotdiv, id=galaxy_id)  # Hello World"
+    return render_template("homepage.html", someplot=someplotdiv, id=galaxy_id)
 
+@app.route("/affirmation")
+def check_machine():
+    galaxy = Controller().rand_galaxy()
+    galaxy_id = galaxy.id
+
+    someplotdiv = generate_plot(galaxy)
+    return render_template("affirmation.html", someplot=someplotdiv, id=galaxy_id)
 
 @app.route("/about")
 def about():

@@ -11,10 +11,14 @@
 
 <center>
 
-<div class="well" style="width: 50%">
+    <center>
+    <div>
+        <img src="{{url_for('static', filename='space.jpeg')}}" style="width: 50%" vspace="10" hspace="30" class="galaxy-img">
+    </div>
+    </center>
 
-    <div class="well">
-    <blockquote class="blockquote-reverse">
+    <div class="well" style="width: 50%">
+    <blockquote class="blockquote-reverse" style="width: 90%" vspace="1">
         <p>“It is hard to think of practical applications of the black hole. Because practical applications are so
             remote, many people assume we should not be interested. But this quest to understand the world is what
             defines us as human beings.”</p>
@@ -22,16 +26,19 @@
     </blockquote>
     </div>
 
+    <center>
+    <div>
+        <img src="{{url_for('static', filename='space.jpeg')}}" style="width: 50%" vspace="10" hspace="30" class="galaxy-img">
+    </div>
+    </center>
+
+<div class="well" style="width: 50%">
+
     <!--<div style="display: inline-block">-->
         <!--<img src="{{url_for('static', filename='space-spiral-galaxy-messier-101.png')}}" style="width: 10%" vspace="10" hspace="30">-->
         <!--<img src="{{url_for('static', filename='space-spiral-galaxy-messier-101.png')}}" style="width: 10%" vspace="10" hspace="30">-->
         <!--<img src="{{url_for('static', filename='space-spiral-galaxy-messier-101.png')}}" style="width: 10%" vspace="10" hspace="30">-->
     <!--</div>-->
-    <center>
-    <div>
-        <img src="{{url_for('static', filename='space.jpeg')}}" style="width: 100%" vspace="10" hspace="30" class="galaxy-img">
-    </div>
-    </center>
 
     <br>
     <p align="left">
@@ -62,9 +69,5 @@
 
 </div>
 </center>
-
-<div align="center">
-    <a href="http://127.0.0.1:5000/#"><img src="{{url_for('static', filename='blackhole3.jpg')}}" style="width: 50%" vspace="20" </a>
-</div>
 
 {% endblock %}
