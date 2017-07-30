@@ -3,8 +3,10 @@
 from astropy.io import fits
 import numpy as np
 
-from os import listdir
-from os.path import isfile, join
+#from os import listdir
+#from os.path import isfile, join
+
+import os
 
 import datetime
 
@@ -16,11 +18,12 @@ def lerp(a, b, t):
 def remove_slope(wls, fxs):
     
     edge_wl = [4517, 4785]
+    
     ew = 50.0
     ewo2 = ew/2
 
-    edge_sum = [0,0]
-    edge_points = [0,0]
+    edge_sum = [0, 0]
+    edge_points = [0, 0]
     for i, edge in enumerate(edge_wl):
         for j, fx in enumerate(fxs):
             if edge-ewo2 < wls[j] < edge+ewo2:
@@ -57,31 +60,38 @@ def standardize_domain(wls, fxs, wl_min, wl_max, n_samples):
     return new_wls, new_fxs
 
 
-def process_file(path, wl_min, wl_max, n_samples):
+def process_file(path, wl_min, wl_max, n_samples, check_he2=False):
     hdulist = fits.open(path)
     wls = 10**hdulist[1].data['loglam']
     fxs = hdulist[1].data['flux']
     z = hdulist[2].data['z']
     wls = wls / (1 + z)
+    if wl_min < wls[0] or wl_max > wls[-1]:
+        return None
     remove_slope(wls, fxs)
     wls, fxs = crop_data(wls, fxs, wl_min, wl_max)
     wls, fxs = standardize_domain(wls, fxs, wl_min, wl_max, n_samples)
-    if is_he2(wls, fxs):
-        return fxs
+    if check_he2:
+        if is_he2(wls, fxs):
+            print('including ' + path)
+            return fxs
+        print('excluding ' + path)
+        return None
+    return fxs
 
 
-def process_folder(path, wl_min, wl_max, n_samples, label=None):
+def process_folder(path, wl_min, wl_max, n_samples, label=None, check_he2=False):
     r = []
-    file_paths = [join(path, f) for f in listdir(path) if isfile(join(path, f)) and f.endswith('.fits')]
+    file_paths = [os.path.join(path, f) for f in os.listdir(path) if os.path.isfile(os.path.join(path, f)) and f.endswith('.fits')]
     for file_path in file_paths:
-        flux = process_file(file_path, wl_min, wl_max, n_samples)
-        if flux is None:
-            print('excluding ' + file_path)
-        else:
-            print('including ' + file_path)
+        flux = process_file(file_path, wl_min, wl_max, n_samples, check_he2)
+        
+        if flux is not None:
             flux = list(flux)
+            file_name = os.path.splitext(os.path.basename(file_path))[0]
             if label is not None:
                 flux.insert(0, label)
+            flux.insert(0, file_name)
             r.append(flux)
     return r
 
@@ -103,14 +113,14 @@ def main():
     wl_max = 4686+150
     n_samples = 100
     
-    table_negative = process_folder('./raw_data/hasHe2_NoWR/', wl_min, wl_max, n_samples, 0)
-    table_positive = process_folder('./raw_data/Brinchmann08_spectra', wl_min, wl_max, n_samples, 1)
-    table_negative.extend(table_positive)
-    save_csv(table_negative)
+    #table_negative = process_folder('./raw_data/hasHe2_NoWR/', wl_min, wl_max, n_samples, 0, False)
+    #table_positive = process_folder('./raw_data/Brinchmann08_spectra', wl_min, wl_max, n_samples, 1, False)
+    #table_negative.extend(table_positive)
+    #save_csv(table_negative)
     
     
-    #table_he2 = process_folder('./raw_data/firstThousandSpectra/thousandSpectra/', wl_min, wl_max, n_samples)
-    #save_csv(table_he2)
+    table_he2 = process_folder('./raw_data/firstThousandSpectra/thousandSpectra/', wl_min, wl_max, n_samples, label=None, check_he2=True)
+    save_csv(table_he2)
     
     
     
