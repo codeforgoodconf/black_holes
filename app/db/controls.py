@@ -9,20 +9,18 @@ class Controller:
 
     def update_human_label(self, id, human_label):
         galaxy = Galaxy.query.get(id)
-
-        print(f"Previous label: {galaxy.human_label}")
         galaxy.human_label = human_label == "True"
-
-        print(f"New label: {galaxy.human_label}")
 
         db.session.add(galaxy)
         db.session.commit()
 
-        galaxy = Galaxy.query.get(id)
-        print(f"Confirm label still : {galaxy.human_label}")
 
     def update_machine_affirmation(self, id, affirmation):
-        pass
+        galaxy = Galaxy.query.get(id)
+        galaxy.affirmation = affirmation == "True"
+
+        db.session.add(galaxy)
+        db.session.commit()
 
 
     def rand_galaxy(self):
