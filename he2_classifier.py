@@ -37,6 +37,27 @@ def remove_slope(wls, fxs):
     for i, wav_val in enumerate(wls):
         fxs[i] -= (slope*wav_val + y_int)
 
+def gaussian_smooth(wav_rest, fwav):
+
+    kernel_width = 2
+    stepsize = wav_rest[1]-wav_rest[0]
+
+    num_steps = int(kernel_width/stepsize * 3) #Calculate out to 1%
+    kernel = [np.exp(-((i*stepsize)**2)/(2*kernel_width**2))
+        for i in range(num_steps)]
+    kernel = kernel[::-1] + kernel[1:]
+    kernel = [i/np.sum(kernel) for i in kernel] #normalize the kernel
+
+    fwav_smooth = [0]*(len(fwav)-len(kernel)+1)
+    wav_rest_smooth = [0]*(len(fwav)-len(kernel)+1)
+    for i in range(len(fwav_smooth)):
+        use_fwav_vals = fwav[i:i+len(kernel)]
+        fwav_smooth[i] = np.sum([use_fwav_vals[j]*kernel[j]
+            for j in range(len(kernel))])
+        wav_rest_smooth[i] = wav_rest[i+int((len(kernel)-1)/2)]
+    
+    return wav_rest_smooth, fwav_smooth
+
 
 def crop_data(wls, fxs, wl_min, wl_max):
     wlsc = [wls[i] for i in range(len(wls)) if wl_min < wls[i] < wl_max]
@@ -69,6 +90,7 @@ def process_file(path, wl_min, wl_max, n_samples, check_he2=False):
     if wl_min < wls[0] or wl_max > wls[-1]:
         return None
     remove_slope(wls, fxs)
+    wls, fxs = gaussian_smooth(wls, fxs)
     wls, fxs = crop_data(wls, fxs, wl_min, wl_max)
     wls, fxs = standardize_domain(wls, fxs, wl_min, wl_max, n_samples)
     if check_he2:
@@ -117,7 +139,7 @@ def main():
     
     wl_min = 4686-150
     wl_max = 4686+150
-    n_samples = 100
+    n_samples = 300
     
     table_negative = process_folder('./raw_data/hasHe2_NoWR/', wl_min, wl_max, n_samples, 0, False)
     table_positive = process_folder('./raw_data/Brinchmann08_spectra', wl_min, wl_max, n_samples, 1, False)
