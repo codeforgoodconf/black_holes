@@ -9,8 +9,21 @@ class Controller:
 
     def update_human_label(self, id, human_label):
         galaxy = Galaxy.query.get(id)
-        galaxy.human_label = human_label
+
+        print(f"Previous label: {galaxy.human_label}")
+        galaxy.human_label = human_label == "True"
+
+        print(f"New label: {galaxy.human_label}")
+
+        db.session.add(galaxy)
         db.session.commit()
+
+        galaxy = Galaxy.query.get(id)
+        print(f"Confirm label still : {galaxy.human_label}")
+
+    def update_machine_affirmation(self, id, affirmation):
+        pass
+
 
     def rand_galaxy(self):
         galaxy = db.session.query(Galaxy).filter_by(human_label=None)[0]
@@ -27,7 +40,7 @@ class Controller:
 
         return galaxy
 
-    def add_machine_label(self, file_url, machine_label):
+    def add_machine_label(self, file_url, machine_prediction):
         if file_url.endswith(".fits"):
             file_url = file_url.replace(".fits", "")
 
@@ -36,9 +49,10 @@ class Controller:
             print(dir(galaxies))
             print(galaxies.count())
 
-
             galaxy = galaxies[0]
-            galaxy.tf_label = machine_label
+
+            galaxy.tf_label = machine_prediction > 0.8
+            galaxy.tf_value = machine_prediction
             db.session.commit()
 
 
