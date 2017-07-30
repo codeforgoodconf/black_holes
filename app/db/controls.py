@@ -26,3 +26,19 @@ class Controller:
             human_label=None)
 
         return galaxy
+
+    def add_machine_label(self, file_url, machine_label):
+        if not file_url.endswith(".fits"):
+            file_url = f"{file_url}.fits"
+
+        galaxies = db.session.query(Galaxy).filter_by(file_url=file_url)
+        if galaxies.count():
+            print(dir(galaxies))
+            print(galaxies.count())
+
+
+            galaxy = galaxies[0]
+            galaxy.tf_label = machine_label
+            db.session.commit()
+
+

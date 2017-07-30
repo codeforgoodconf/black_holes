@@ -17,8 +17,9 @@ def seed_db():
 
     DIR = "spectrum_data"
     file_list = get_file_list(DIR)
+
     controller = Controller()
-    galaxies = [controller.create_new_galaxy(f"{DIR}/{filename}") for filename in file_list]
+    galaxies = [controller.create_new_galaxy(f"{filename}") for filename in file_list]
 
     db.session.add_all(galaxies)
     db.session.commit()
