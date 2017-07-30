@@ -28,8 +28,8 @@ class Controller:
         return galaxy
 
     def add_machine_label(self, file_url, machine_label):
-        if not file_url.endswith(".fits"):
-            file_url = f"{file_url}.fits"
+        if file_url.endswith(".fits"):
+            file_url = file_url.replace(".fits", "")
 
         galaxies = db.session.query(Galaxy).filter_by(file_url=file_url)
         if galaxies.count():

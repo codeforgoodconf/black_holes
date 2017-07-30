@@ -9,6 +9,11 @@ def get_file_list(path):
     file_list = os.listdir(path)
     return file_list
 
+def rm_fits(filename):
+    a = filename.replace(".fits", "")
+    return a
+
+
 def seed_db():
     print("SEED DB")
 
@@ -17,7 +22,9 @@ def seed_db():
 
     DIR = "spectrum_data"
     file_list = get_file_list(DIR)
-
+    print(file_list)
+    file_list = [rm_fits(filename) for filename in file_list]
+    print(file_list)
     controller = Controller()
     galaxies = [controller.create_new_galaxy(f"{filename}") for filename in file_list]
 
