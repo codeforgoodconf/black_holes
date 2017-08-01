@@ -24,7 +24,7 @@ For more details, please see
 - **Training page** allows a user to classify whether a shown spectra has a WR bump or not.  This human labeled data is then added to the known WR bump data set that is used to train the classification models.
 - **Varification page** allows a user currate the results of the expiremental classification models.  They are shown the spectra and the machines prediction and are asked to confirm or deny the results.
  
-# Details
+# Setup
 
 The app is built using Flask and Plotly.
 
