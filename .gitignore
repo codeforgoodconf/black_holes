@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 venv/
 __pycache__/
 .vscode/
 .DS_Store
 .idea/
 .cache/
+=======
+.DS_Store
+/.idea
+>>>>>>> 18bd3ae4fbb04b96f1d399195ed315e14d4c423c
