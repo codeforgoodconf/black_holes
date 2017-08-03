@@ -1,0 +1,108 @@
+\documentclass[iop,apj]{emulateapj}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+
+\def\arcsec{\hbox{$^{\prime\prime}$}}
+\def\deg{\hbox{$^\circ$}}
+\def\init{\hspace{0.75 mm}}
+
+\def\chisq{$\chi^2$}
+\def\chisqdof{\chi^2\textrm{/dof}}
+
+
+\def\ergcms{erg~cm$^{-2}$~s$^{-1}$}
+\def\ergs{erg~s$^{-1}$}
+
+\def\oiii{[O\hspace*{1mm}\textsc{iii}]}
+\def\nii{[N\hspace{1mm}\textsc{ii}]}
+\def\sii{[S\hspace{1mm}\textsc{ii}]}
+\def\hei{He\hspace{1mm}\textsc{i}}
+\def\caii{Ca\hspace{1mm}\textsc{ii}}
+\def\heii{He\hspace{1mm}\textsc{ii}~4686}
+
+
+\def\MSol{M$_\sun$}
+\def\sersic{S\'{e}rsic}
+\def\logMSol{$\log{\frac{M_\star}{\textrm{\MSol{}}}}$}
+
+\def\logMdot{$\log{\frac{\dot{M}}{\textrm{\MSol{}}}}$}
+\def\logMBH{$\log{\frac{M_\textrm{BH}}{\textrm{\MSol{}}}}$}
+\definecolor{royalazure}{rgb}{0.0, 0.22, 0.66}
+\definecolor{dartmouthgreen}{rgb}{0.05, 0.5, 0.06}
+
+\renewcommand{\baselinestretch}{1.01}
+
+\submitted{}
+\begin{document}
+
+\title{\heii\ Project Overview}
+
+\author{Nathan J.\init Secrest\altaffilmark{1}}
+
+\affil{$^1$National Academy of Sciences NRC Research Associate, resident at Naval Research Laboratory}
+
+
+
+\begin{abstract}
+
+Some useful information to get this project started. This will be a living document that will be updated with each new development.
+
+\end{abstract}
+
+
+
+%\keywords{galaxies: active --- galaxies: interactions --- galaxies: Seyfert --- galaxies: nuclei --- galaxies: bulges --- galaxies: dwarf}
+
+
+\section{Introduction}
+\label{intro}
+
+The idea behind this project is to use machine learning techniques to distinguish between galaxies with \heii\ (4686\AA) emission due to extreme star formation and galaxies with \heii\ emission due to possible active galactic nucleus (AGN) activity. The motivation for this is that we are looking for AGN activity in low metallicity galaxies, which are more representative of the earliest galaxies in the universe. This may help us constrain the nature of black holes in the early universe, an outstanding problem in astrophysics. Because metallicity (defined in astrophysics as elements heavier than helium, which are produced in supernovae) is a proxy for the history of star formation in a galaxy, it is also a proxy for the history of gas accretion, either into populations of stars or onto a massive black hole (MBH; mass $M_\textrm{BH} > 100~M_\sun$, where $M_\sun$ is 1 solar mass). If an MBH has accreted significant gas over the lifetime of the galaxy, its mass and other properties will not be representative of when it first formed. In other words, we're looking for `fossil' black holes!
+
+The advantage of the \heii\ line is that, not only is it a proxy for the `hardness' of the radiation field (and is thus sensitive to AGN activity), it is also metallicity-independent, since helium is one of the primordial elements. So, the idea is to produce a highly reliable and complete sample of galaxies with \heii. To this end we will be using the Sloan Digital Sky Survey (SDSS) Legacy survey,\footnote{\url{http://classic.sdss.org/legacy/}} which includes a magnitude (brightness, or flux)\footnote{\url{https://en.wikipedia.org/wiki/Apparent_magnitude}}-limited set of galaxies (the `Main' sample) observed with the Sloan spectrograph. The advantage to this sample is that it gets everything out to a limiting flux in a homogeneous way (that is to say, using the same instrument), making it not only statistically useful but also a strong candidate for machine-learning methods, which benefit greatly from homogeneous data.
+
+
+\section{Methodology}
+
+The general outline of how we will accomplish our goals is given as follows:
+
+\begin{enumerate}
+
+\item{Using CasJobs\footnote{\url{http://skyserver.sdss.org/casjobs}}, create and account and obtain a manifest of every spectrum taken as part of the Legacy Main survey.}
+
+\item{Remove anything classified by the pipeline as a ``STAR'' to reduce data load.}
+
+\item{Depending on how many spectra that are left, make a local archive of the data. Apparently the best way to do this is by using Globus~Online, as discussed in the SDSS documentation.\footnote{\url{http://www.sdss.org/dr13/data_access/bulk/}}}
+
+\item{ 
+
+a) With throughput limitations minimized, run a script to find the equivalent width (EW)\footnote{\url{https://en.wikipedia.org/wiki/Equivalent_width}} of each spectrum at the position of the \heii\ line to pick out everything that \textit{possibly} has the \heii\ line. \textit{This is ultimately the catalog of \heii\ we want to create}. The catch is to flag the sources that have the WR bump, as outlined below.
+
+b) Independently, using a training set of galaxies that have the Wolf-Rayet (WR) bump, classify the same galaxies to get a robust list of everything in the Legacy Main sample with WR activity. A good training set might be the sample of WR galaxies from \citet{Brinchmann+08}. The ultimate goal is not only to recover everything from that sample that definitely does have the WR bump, but hopefully to improve upon it, so that everything with \heii\ not flagged as WR using our method is reliable.
+}
+
+
+
+\end{enumerate}
+
+The end goal of this work is to produce a reliable and exhaustive (complete) sample of everything in the Legacy Main survey with \heii. This by itself will warrant a publication, likely in \textit{The Astrophysical Journal Supplement Series} (ApJS)\footnote{\url{http://iopscience.iop.org/journal/0067-0049}}. With this sample validated and passing peer-review, we can use it to pick out low-metallicity AGN candidates!
+
+For computational resources, I think that the best thing to do would be to keep the database of spectra (and all software) on a (dedicated?) server at GMU.  I also like the idea of making a website in which multiple people can help classify galaxies. Once we have (hopefully) shown that ML can classify galaxies with the WR feature, this project will lead to a more generalized classification of Sloan spectra.
+
+
+\begin{thebibliography}{}
+
+
+%\bibitem[Astropy Collaboration et al.(2013)]{Astropy13} Astropy Collaboration, Robitaille, T.~P., Tollerud, E.~J., et al.\ 2013, \aap, 558, A33 
+
+\bibitem[Brinchmann et al.(2008)]{Brinchmann+08} Brinchmann, J., Kunth, D., \& Durret, F.\ 2008, \aap, 485, 657
+
+\end{thebibliography}
+
+
+\end{document}
+
+
