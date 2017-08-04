@@ -3,4 +3,7 @@ __pycache__/
 .vscode/
 .DS_Store
 .idea/
-.cache/
+.cache
+backend/data/raw_data/blackhole_spectra/
+backend/data/raw_data/blackhole_spectra.tar.gz
+*.swp
