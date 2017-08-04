@@ -1,7 +1,7 @@
 import numpy as np
 from astropy.io import fits
 from astropy.table import Table
-print "ok"
+print("ok")
 import matplotlib as mpl
 mpl.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -12,23 +12,20 @@ import sys
 import os
 
 def plotAll(targetDir, toPlot):
-	print "alright %s" % toPlot
+	print("alright %s" % toPlot)
 	for f in toPlot:
 		if "Brinchmann08_Tab3and5.fits" in f:
 			continue
-		if "negativeSpecctra" in f:
-			continue
-		target = f.replace('raw_data/Brinchmann08_spectra/','positive-').replace('raw_data/hasHe2_NoWR/','negative-').replace('raw_data/He2FilteringFiles/','unknown-').replace('raw_data/firstThousandGal/','unknown-').replace('.fits', '.png')
-		target = targetDir + "/" + target
-		print "testing file"
+		target = f.replace('raw_data/Brinchmann08_spectra/','positive-').replace('raw_data/negativeSpectra/','negative-').replace('raw_data/He2FilteringFiles/','unknown-').replace('raw_data/firstThousandGal/','unknown-').replace('.fits', '.png')
+		print("testing file")
 		if os.path.isfile(target):
-			print "skipping"
+			print("skipping")
 			continue
-		print "filetested!"
-		print "writing %s" % target
-		plotImage(f, target)
+		print("filetested!")
+		print("writing %s" % target)
+		plotImage(targetDir, f, target)
 	
-def plotImage(f, target):
+def plotImage(targetDir, f, target):
 	hdulist = fits.open(f)
 	dat, hdr = hdulist[1].data, hdulist[0].header
 	z = hdulist[2].data['Z'][0]    # This is the redshift
@@ -42,8 +39,8 @@ def plotImage(f, target):
 
 	# Normalize the spectrum for plotting purposes.
 	def find_nearest(array,value):
-	    """Quick nearest-value finder."""
-	    return int((np.abs(array-value)).argmin())
+		"""Quick nearest-value finder."""
+		return int((np.abs(array-value)).argmin())
 
 	norm = fwav[find_nearest(wav_rest, 5100)]
 	fwav = fwav / norm
@@ -65,7 +62,7 @@ def plotImage(f, target):
 
 	#plt.show()
 	
-	plt.savefig(target)
+	plt.savefig(targetDir + "/" + target)
 
 targetDir = sys.argv[1]
 toPlot = sys.argv[2:]
