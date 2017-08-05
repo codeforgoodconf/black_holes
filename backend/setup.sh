@@ -12,6 +12,6 @@ pip install -r requirements.txt
 python src/accessSpectra/loadFromDrive.py
 
 # Unzip the spectra data
-tar -xvzf data/raw_data/blackhole_spectra.tar.gz -C data/raw_data
+tar -xvzf blackhole_spectra.tar.gz
 
 

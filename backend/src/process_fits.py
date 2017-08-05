@@ -1,11 +1,11 @@
-
 import os
 import numpy
 from astropy.io import fits
+import config
 
 
 def lerp(a, b, t):
-    return (1.0-t)*a + t*b
+    return (1.0 - t) * a + t * b
 
 
 def remove_slope(wls, fxs):
@@ -45,7 +45,7 @@ def gaussian_smooth(wav_rest, fwav):
     for i in range(len(fwav_smooth)):
         use_fwav_vals = fwav[i:i + len(kernel)]
         fwav_smooth[i] = numpy.sum([use_fwav_vals[j] * kernel[j]
-                                 for j in range(len(kernel))])
+                                    for j in range(len(kernel))])
         wav_rest_smooth[i] = wav_rest[i + int((len(kernel) - 1) / 2)]
 
     return wav_rest_smooth, fwav_smooth
@@ -62,7 +62,7 @@ def crop_data(wls, fxs, wls_out):
 def process_fits(file_path, wls_out):
     print('processing ' + file_path)
     hdulist = fits.open(file_path)
-    wls = 10**hdulist[1].data['loglam']
+    wls = 10 ** hdulist[1].data['loglam']
     fxs = hdulist[1].data['flux']
     z = hdulist[2].data['z']
     wls = wls / (1 + z)
@@ -94,18 +94,18 @@ def save_csv(name, table):
         for i in range(len(table)):
             for j in range(len(table[i])):
                 file.write(str(table[i][j]))
-                if j < len(table[i])-1:
+                if j < len(table[i]) - 1:
                     file.write(',')
             file.write('\n')
 
 
 def main():
-    path_negatives = 'D:\\data\\blackhole_spectra\\negatives'
-    path_positives = 'D:\\data\\blackhole_spectra\\positives'
-    path_output = 'D:\\data\\blackhole_spectra\\compiled.csv'
+    path_negatives = os.path.join(config.DATA_ROOT, "negatives")  # 'D:\\data\\blackhole_spectra\\negatives'
+    path_positives = os.path.join(config.DATA_ROOT, "positives")  # 'D:\\data\\blackhole_spectra\\positives'
+    path_output = os.path.join(config.DATA_ROOT, "compiled.csv")  # 'D:\\data\\blackhole_spectra\\compiled.csv'
 
-    wl_min = 4686-150
-    wl_max = 4686+150
+    wl_min = 4686 - 150
+    wl_max = 4686 + 150
     n_samples = 300
 
     wls_out = [lerp(wl_min, wl_max, i / (n_samples - 1)) for i in range(n_samples)]
@@ -127,9 +127,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-

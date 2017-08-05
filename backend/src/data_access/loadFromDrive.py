@@ -42,5 +42,5 @@ def save_response_content(response, destination):
 
 if __name__ == "__main__":
     file_id = '0B393UOmmI4yBelI1NGUwcUZ5NU0'
-    destination = 'data/raw_data/blackhole_spectra.tar.gz'
+    destination = 'blackhole_spectra.tar.gz'
     download_file_from_google_drive(file_id, destination)

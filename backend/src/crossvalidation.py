@@ -1,15 +1,11 @@
+import os
 import random
-import nearestmeans
-import bayesian
-import perceptron
-import logicdiscrimination
-import randomclassifier
-import knearestneighbor
-
+from src.classifiers import nearestmeans, bayesian, perceptron, \
+    logicdiscrimination, randomclassifier, knearestneighbor
+import config
 
 
 def splitlabels(labels):
-
     cv_labels = {}
     cv_validation = {}
 
@@ -85,13 +81,12 @@ def parse_csv(file_path):
 
 
 def main():
-
     # percent_train = 0.5
     # percent_test = 1.0 - percent_train
 
-    file_path = 'D:\\data\\blackhole_spectra\\compiled.csv'
+    file_path = os.path.join(config.DATA_ROOT, "compiled.csv")  # 'D:\\data\\blackhole_spectra\\compiled.csv'
 
-    print('loading '+file_path)
+    print('loading ' + file_path)
     data, labels = parse_csv(file_path)
 
     n = [0, 0]
@@ -101,11 +96,15 @@ def main():
     print('samples: ' + str(len(labels)))
     print('negatives: ' + str(n[0]))
     print('positives: ' + str(n[1]))
-    print('iteration\talgorithm\taccuracy')
+
+    formatter = "{0:<10} {1:<40} {2:15}"
+    print("\n\n")
+    print(formatter.format('Iteration', 'Algorithm', 'Accuracy'))
+    print('-' * 73)
 
     classifiers = [knearestneighbor, nearestmeans, bayesian, perceptron, randomclassifier]
     n_iterations = 10
-    accuracies = [0.0]*len(classifiers)
+    accuracies = [0.0] * len(classifiers)
     for i in range(n_iterations):
 
         cv_labels, cv_validation = splitlabels(labels)
@@ -114,14 +113,18 @@ def main():
             classifier = classifiers[j]
             classifier.run(data, cv_labels, n)
             acc = accuracy(cv_labels, cv_validation)
-            print(str(i) + '\t'+classifier.__name__+'\t' + str(acc), flush=True)
+
+            row = formatter.format(i, classifier.__name__, acc)
+            print(row, flush=True)
             accuracies[j] += acc
             resetlabels(cv_labels, cv_validation)
 
-    for i in range(len(classifiers)):
+    for i, classifier in enumerate(classifiers):
         accuracies[i] /= n_iterations
         accuracies[i] *= 100
-        print('average\t'+classifiers[i].__name__+'\t'+str(accuracies[i]))
+        row = formatter.format("average", classifier.__name__, accuracies[i])
+        print(row)
+        #print('average\t' + classifier.__name__ + '\t' + str(accuracies[i]))
 
 
 if __name__ == '__main__':

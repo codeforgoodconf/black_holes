@@ -7,6 +7,29 @@ store information in our database, and build the neural net to find galaxies wit
 
 For a quick intro to the project check out the MVP in <a href="https://github.com/codeforgoodconf/black_holes_backend/blob/master/notes.md">notes.md</a>. For more detailed description, check out the <a href="https://github.com/codeforgoodconf/black_holes_backend/blob/master/ML_Info/Project_Information.pdf">ML_Info/Project_Information.pdf</a> directory
 
+
+## Setup
+
+After setting up a virtual environment and installing all the requirements in `requirements.txt`,
+download the dataset from google drive.  Steps to do this can be found in `setup.sh`, either run this script, or
+customize the commands to suit your system.
+
+Once the data is local to your machine, change the `DATA_ROOT` variable in `config.py`
+
+To reproduce current results, run `process_fits.py`:
+`python -m src.process_fits`
+
+and then run `crossvalidation.py`:
+python -m src.crossvalidation
+
+
+
+The cross-validation is implemented as plug-and-play, so anyone can implement any classifier
+(e.g. a neural net in Tensorflow) and easily add it to the list of classifiers to be tested.
+
+
+
+
 ## WR Classifier Procedure
 
 1. From the .fits file, open 
