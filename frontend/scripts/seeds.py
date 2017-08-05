@@ -1,6 +1,6 @@
 from app.db import db, Galaxy
 import os
-from app.db.controls import Controller
+from app.db.controls import DbController
 
 
 # load all filenames in spectrum_data folder
@@ -25,7 +25,7 @@ def seed_db():
     print(file_list)
     file_list = [rm_fits(filename) for filename in file_list]
     print(file_list)
-    controller = Controller()
+    controller = DbController()
     galaxies = [controller.create_new_galaxy(f"{filename}") for filename in file_list]
 
     db.session.add_all(galaxies)

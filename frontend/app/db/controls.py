@@ -2,7 +2,7 @@ from app.db import db, Galaxy
 from random import randint
 
 
-class Controller:
+class DbController:
     def add_galaxy(self, file_url, human_label=None, tf_label=None):
         galaxy = Galaxy(file_url, human_label, tf_label)
         db.session.add(galaxy)
@@ -21,7 +21,7 @@ class Controller:
         db.session.add(galaxy)
         db.session.commit()
 
-    def rand_galaxy(self):
+    def next_unlabeled_galaxy(self):
         galaxies = db.session.query(Galaxy).filter_by(human_label=None)
         if galaxies.count():
             galaxy = galaxies[randint(0, galaxies.count()-1)]  # when we have all data change 30 to 400 or something bigger
@@ -30,7 +30,7 @@ class Controller:
         else:
             return False
 
-    def machine_labeled_galaxy(self):
+    def next_machine_labeled_galaxy(self):
         galaxies = db.session.query(Galaxy).filter(Galaxy.tf_label != None)
         if galaxies.count():
             galaxy = galaxies[randint(0, galaxies.count()-1)]  # when we have all data change 30 to 400 or something bigger
