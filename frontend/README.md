@@ -11,13 +11,18 @@ The app is built using Flask and Plotly.
 With Python3.6 installed on your machine the following sequence of commands will get the development app running.
 
 ```
-git clone https://github.com/codeforgoodconf/black_hole_frontend
-cd black_hole_frontend
+# Get the source code
+git clone https://github.com/codeforgoodconf/black_holes
+cd black_holes/frontend
+
+# Setup a virtual environment
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+
+# Seed the database with demo data
 python -m scripts.seeds
+
+# Start the server
 python run.py
 ```
-
-
