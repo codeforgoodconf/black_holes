@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block body %}
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        
+        <th>File URL</th>
+        <th>Human label</th>
+        <th>TF label</th>
+    </tr>
+    </thead>
+    <!--<tbody>-->
+
+
+    <tbody>
+    {% for g in galaxies %}
+
+    <tr>
+        <td>{{ g.id }}</td>
+        <td>{{ g.file_url }}</td>
+        <td>{{ g.human_label }}</td>
+        <td>{{ g.tf_label }}</td>
+    </tr>
+
+    {% endfor %}
+    </tbody>
+    {% endblock %}

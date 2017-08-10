@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class='content' align="center">
+
+    <h1>Black Hole or Not Black Hole?</h1>
+
+    <!--<h2>The best black hole sorting app ;)</h2>-->
+
+    <p> Does this spectrum have a WR bump?
+
+</div>
+
+<center>
+    <div style="width: 70%" align="center">
+
+        {{someplot | safe}}
+
+    </div>
+</center>
+<br>
+<div align="center">
+
+    <a href="add_label?id={{id}}&is_wr=True" class="btn btn-primary">Yes</a>
+    <a href="add_label?id={{id}}&is_wr=False" class="btn btn-primary">No</a>
+    <a href="index" class="btn btn-primary">Skip </a>
+</div>
+<br><br><br>
+
+
+{% endblock %}

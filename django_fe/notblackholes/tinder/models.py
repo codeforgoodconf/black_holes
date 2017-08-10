@@ -20,10 +20,11 @@ from django.db import models
 
 class Galaxy(models.Model):
     id = models.IntegerField(primary_key=True)
-    file_url = models.FloatField()
-    tf_value = models.FloatField()
-    tf_label = models.BooleanField()
-    human_label = models.BooleanField()
+    file_url = models.TextField()
+    tf_value = models.FloatField(null=True)
+    tf_label = models.NullBooleanField()
+    human_label = models.NullBooleanField()
+
 
 
 
