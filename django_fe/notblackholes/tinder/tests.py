@@ -11,6 +11,7 @@ class TestDbControls(TestCase):
 
     def test_gets_galaxies(self):
         db = DbController()
+        # import pdb; pdb.set_trace()
         galaxy = db.next_unlabeled_galaxy()
 
         self.assertIsInstance(galaxy, Galaxy)

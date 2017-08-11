@@ -5,6 +5,8 @@ from tinder.src.DbController import DbController
 from tinder.src.PlotBuilder import PlotBuilder
 from tinder.src.FitsLoader import FitsLoader
 
+from tinder.models import Galaxy
+
 controller = DbController()
 
 
@@ -39,8 +41,27 @@ def labeller(request):
 
 
 def affirmation(request):
-    return render(request, 'affirmation.html')
+    if request.method == "POST":
+        id = request.args['id']
+        new_wr = request.args['is_wr']
+        print(f"ID: {id}, label: {new_wr}")
+        controller.update_machine_affirmation(id, new_wr)
+
+    galaxy = controller.next_machine_labeled_galaxy()
+    if galaxy:
+        galaxy_id = galaxy.id
+
+        someplotdiv = generate_plot(galaxy)
+        machine_label = galaxy.tf_label
+    else:
+        galaxy_id = None
+        someplotdiv = "There are no machine labels yet"
+        machine_label = None
+
+    return render(request, 'affirmation.html', {'someplot': someplotdiv, 'id': galaxy_id, 'answer': machine_label})
 
 
 def galaxies(request):
-    return render(request, 'galaxies.html')
+    galaxyList = Galaxy.objects.all()
+
+    return render(request, 'galaxies.html', {'galaxies': galaxyList})

@@ -19,12 +19,11 @@ class DbController:
         galaxy.save()
 
     def update_machine_affirmation(self, id, affirmation):
-        galaxy = Galaxy.query.get(id)
+        galaxy = Galaxy.objects.get(id=id)
         galaxy.affirmation = affirmation == "True"
         galaxy.save()
 
     def next_unlabeled_galaxy(self):
-
         galaxies = Galaxy.objects.filter(human_label=None)
 
         if galaxies.count():
@@ -35,7 +34,7 @@ class DbController:
             return False
 
     def next_machine_labeled_galaxy(self):
-        galaxies = Galaxy.objects.filter(entry_tf_label__isnull=True)
+        galaxies = Galaxy.objects.exclude(tf_label=None).exclude(human_label=None)
 
         if galaxies.count():
             galaxy = galaxies[randint(0, galaxies.count() - 1)]
