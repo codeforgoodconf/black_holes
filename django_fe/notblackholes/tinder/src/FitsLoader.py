@@ -1,11 +1,11 @@
 import numpy as np
 from astropy.io import fits
 
-
+from config import DATA_ROOT
 
 class FitsLoader:
     def load_fits(self, file_url):
-        hdu = fits.open(f"spectrum_data/{file_url}.fits")
+        hdu = fits.open(f"{DATA_ROOT}//{file_url}.fits")
         dat, hdr = hdu[1].data, hdu[0].header
         z = hdu[2].data['Z'][0]    # This is the redshift
         hdu.close()

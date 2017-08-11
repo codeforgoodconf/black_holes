@@ -12,6 +12,7 @@
 
 </div>
 
+
 <center>
     <div style="width: 70%" align="center">
 
@@ -22,9 +23,12 @@
 <br>
 <div align="center">
 
-    <a href="add_label?id={{id}}&is_wr=True" class="btn btn-primary">Yes</a>
-    <a href="add_label?id={{id}}&is_wr=False" class="btn btn-primary">No</a>
-    <a href="index" class="btn btn-primary">Skip </a>
+    <form action="#" method="post">{% csrf_token %}
+        <input type="hidden" name="id" value="{{ id }}">
+        <button class="btn btn-primary" name="is_wr" type="submit" value="True">Yes</button>
+        <button class="btn btn-primary" name="is_wr" type="submit" value="False">No</button>
+        <button class="btn btn-primary" name="is_wr" type="submit" value="SKIP">Skip</button>
+    </form>
 </div>
 <br><br><br>
 

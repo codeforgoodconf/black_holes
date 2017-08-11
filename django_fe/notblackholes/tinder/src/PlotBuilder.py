@@ -16,7 +16,6 @@ class PlotBuilder:
         div = plotly.offline.plot({
             "data": [Scatter(x=x, y=y)],
             "layout": Layout(title=title,
-
                              xaxis=dict(range=[4200, 5300]),
                              yaxis=dict(range=[0.5, 2]),
                              )

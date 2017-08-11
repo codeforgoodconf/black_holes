@@ -8,3 +8,5 @@ backend/data/raw_data/blackhole_spectra/
 backend/data/raw_data/blackhole_spectra.tar.gz
 *.swp
 blackhole_spectra/
+migrations/
+db.sqlite3

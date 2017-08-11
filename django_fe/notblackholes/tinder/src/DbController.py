@@ -12,29 +12,23 @@ class DbController:
     def add_galaxy(self, file_url, human_label=None, tf_label=None):
         galaxy = Galaxy(file_url, human_label, tf_label)
         galaxy.save()
-        # db.session.add(galaxy)
 
     def update_human_label(self, id, human_label):
         galaxy = Galaxy.query.get(id)
         galaxy.human_label = human_label == "True"
         galaxy.save()
-        # db.session.add(galaxy)
-        # db.session.commit()
 
     def update_machine_affirmation(self, id, affirmation):
         galaxy = Galaxy.query.get(id)
         galaxy.affirmation = affirmation == "True"
         galaxy.save()
-        # db.session.add(galaxy)
-        # db.session.commit()
 
     def next_unlabeled_galaxy(self):
-        # galaxies = db.session.query(Galaxy).filter_by(human_label=None)
+
         galaxies = Galaxy.objects.filter(human_label=None)
 
         if galaxies.count():
-            galaxy = galaxies[
-                randint(0, galaxies.count() - 1)]  # when we have all data change 30 to 400 or something bigger
+            galaxy = galaxies[randint(0, galaxies.count() - 1)]
 
             return galaxy
         else:
@@ -42,10 +36,9 @@ class DbController:
 
     def next_machine_labeled_galaxy(self):
         galaxies = Galaxy.objects.filter(entry_tf_label__isnull=True)
-        # galaxies = db.session.query(Galaxy).filter(Galaxy.tf_label != None)
+
         if galaxies.count():
-            galaxy = galaxies[
-                randint(0, galaxies.count() - 1)]  # when we have all data change 30 to 400 or something bigger
+            galaxy = galaxies[randint(0, galaxies.count() - 1)]
             return galaxy
         else:
             return False
