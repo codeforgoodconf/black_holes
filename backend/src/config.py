@@ -1,0 +1,1 @@
+DATA_ROOT = "D:\\data\\blackhole_spectra"
