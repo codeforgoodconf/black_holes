@@ -14,7 +14,7 @@ class DbController:
         galaxy.save()
 
     def update_human_label(self, id, human_label):
-        galaxy = Galaxy.query.get(id)
+        galaxy = Galaxy.objects.get(id=id)
         galaxy.human_label = human_label == "True"
         galaxy.save()
 

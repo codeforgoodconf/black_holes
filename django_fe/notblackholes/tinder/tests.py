@@ -6,6 +6,9 @@ from tinder.models import Galaxy
 # Create your tests here.
 
 class TestDbControls(TestCase):
+    def setUp(self):
+        Galaxy.objects.create(human_label=None, file_url="sldkjf")
+
     def test_gets_galaxies(self):
         db = DbController()
         galaxy = db.next_unlabeled_galaxy()

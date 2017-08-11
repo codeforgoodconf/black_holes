@@ -23,7 +23,8 @@ def labeller(request):
     if request.method == "POST":
         is_wr = request.POST['is_wr']
         id = request.POST['id']
-        print(f"{id} is {is_wr}")
+        if is_wr != "SKIP":
+            controller.update_human_label(id, is_wr)
 
     galaxy = controller.next_unlabeled_galaxy()
 
