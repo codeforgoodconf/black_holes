@@ -10,17 +10,19 @@ class DbController:
             self.add_machine_label(filename, value)
 
     def add_galaxy(self, file_url, human_label=None, tf_label=None):
-        galaxy = Galaxy(file_url, human_label, tf_label)
+        galaxy = Galaxy(file_url=file_url,
+                        human_label=human_label,
+                        tf_label=tf_label)
         galaxy.save()
 
     def update_human_label(self, id, human_label):
         galaxy = Galaxy.objects.get(id=id)
-        galaxy.human_label = human_label == "True"
+        galaxy.human_label = human_label
         galaxy.save()
 
     def update_machine_affirmation(self, id, affirmation):
         galaxy = Galaxy.objects.get(id=id)
-        galaxy.affirmation = affirmation == "True"
+        galaxy.affirmation = affirmation
         galaxy.save()
 
     def next_unlabeled_galaxy(self):
@@ -58,15 +60,11 @@ class DbController:
         if file_url.endswith(".fits"):
             file_url = file_url.replace(".fits", "")
 
-        # galaxies = db.session.query(Galaxy).filter_by(file_url=file_url)
+        # TODO: break thresholder into a separate function.
         galaxies = Galaxy.objects.filter(file_url=file_url)
         if galaxies.count():
-            print(dir(galaxies))
-            print(galaxies.count())
-
-            galaxy = galaxies[0]
+            galaxy = galaxies[0] # TODO: fix this access, should be able to 'get' just the one since file_url needs to be unique.
 
             galaxy.tf_label = machine_prediction > 0.8
             galaxy.tf_value = machine_prediction
             galaxy.save()
-            # db.session.commit()

@@ -25,6 +25,7 @@ def labeller(request):
     if request.method == "POST":
         is_wr = request.POST['is_wr']
         id = request.POST['id']
+
         if is_wr != "SKIP":
             controller.update_human_label(id, is_wr)
 

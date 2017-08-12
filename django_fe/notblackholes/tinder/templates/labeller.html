@@ -25,8 +25,8 @@
 
     <form action="#" method="post">{% csrf_token %}
         <input type="hidden" name="id" value="{{ id }}">
-        <button class="btn btn-primary" name="is_wr" type="submit" value="True">Yes</button>
-        <button class="btn btn-primary" name="is_wr" type="submit" value="False">No</button>
+        <button class="btn btn-primary" name="is_wr" type="submit" value=1>Yes</button>
+        <button class="btn btn-primary" name="is_wr" type="submit" value=0>No</button>
         <button class="btn btn-primary" name="is_wr" type="submit" value="SKIP">Skip</button>
     </form>
 </div>
