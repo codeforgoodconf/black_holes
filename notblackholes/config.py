@@ -1,1 +1,1 @@
-DATA_ROOT = "../../blackhole_spectra"
+DATA_ROOT = "../blackhole_spectra"

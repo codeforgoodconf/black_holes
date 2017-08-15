@@ -1,12 +1,22 @@
+
+# Virtual environments
 venv/
+
 __pycache__/
+.cache
+
+# IDEs and editors
 .vscode/
 .DS_Store
 .idea/
-.cache
+*.swp
+
+# Raw data
+blackhole_spectra/
 backend/data/raw_data/blackhole_spectra/
 backend/data/raw_data/blackhole_spectra.tar.gz
-*.swp
-blackhole_spectra/
+
+# Dev DB stuff
 migrations/
-django_fe/notblackholes/db.sqlite3
+fixtures/
+db.sqlite3
