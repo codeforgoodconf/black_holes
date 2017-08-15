@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class='content' align="center">
+
+    <h1>Black Hole or Not Black Hole?</h1>
+
+    <!--<h2>The best black hole sorting app ;)</h2>-->
+
+    <p> Does this spectrum have a WR bump?
+
+</div>
+
+
+<center>
+    <div style="width: 70%" align="center">
+
+        {{someplot | safe}}
+
+    </div>
+</center>
+<br>
+<div align="center">
+
+    <form action="#" method="post">{% csrf_token %}
+        <input type="hidden" name="id" value="{{ id }}">
+        <button class="btn btn-primary" name="is_wr" type="submit" value=1>Yes</button>
+        <button class="btn btn-primary" name="is_wr" type="submit" value=0>No</button>
+        <button class="btn btn-primary" name="is_wr" type="submit" value="SKIP">Skip</button>
+    </form>
+</div>
+<br><br><br>
+
+
+{% endblock %}
