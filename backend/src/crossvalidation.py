@@ -1,9 +1,8 @@
 import os
 import random
-from src.classifiers import nearestmeans, bayesian, perceptron, \
-    logicdiscrimination, randomclassifier, knearestneighbor
+from classifiers import nearestmeans, bayesian, perceptron, \
+    logicdiscrimination, randomclassifier, knearestneighbor, tf_neural_net
 import config
-
 
 def splitlabels(labels):
     cv_labels = {}
@@ -102,7 +101,8 @@ def main():
     print(formatter.format('Iteration', 'Algorithm', 'Accuracy'))
     print('-' * 73)
 
-    classifiers = [knearestneighbor, nearestmeans, bayesian, perceptron, randomclassifier]
+    classifiers = [tf_neural_net, knearestneighbor, nearestmeans, bayesian, perceptron, randomclassifier]
+    #classifiers = [tf_neural_net]
     n_iterations = 10
     accuracies = [0.0] * len(classifiers)
     for i in range(n_iterations):
